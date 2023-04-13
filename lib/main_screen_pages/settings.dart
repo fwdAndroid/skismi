@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:skismi/auth/login_screen.dart';
 
 class Settings extends StatefulWidget {
@@ -29,6 +29,7 @@ class _SettingsState extends State<Settings> {
             color: Colors.white,
           ),
           ListTile(
+            onTap: _launchURL,
             title: Text(
               "Sound Effects",
               style: TextStyle(color: Colors.white),
@@ -147,5 +148,12 @@ class _SettingsState extends State<Settings> {
         ],
       ),
     );
+  }
+
+  _launchURL() async {
+    final Uri _url = Uri.parse('https://flutter.dev');
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }

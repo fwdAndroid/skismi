@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skismi/webpages/chinesewebpage.dart';
+import 'package:skismi/webpages/chingreadingwebpage.dart';
+import 'package:skismi/webpages/crystalwebpage.dart';
+import 'package:skismi/webpages/dreamwebpage.dart';
+import 'package:skismi/webpages/magicwebpage.dart';
+import 'package:skismi/webpages/oraclewebpage.dart';
+import 'package:skismi/webpages/runnswebpage.dart';
+import 'package:skismi/webpages/tarrotwebpage.dart';
 
 class Experts extends StatefulWidget {
   const Experts({super.key});
@@ -32,6 +40,10 @@ class _ExpertsState extends State<Experts> {
                 borderRadius: BorderRadius.circular(40),
               ),
               child: ListTile(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (builder) => TarrotWebPage()));
+                },
                 leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -69,6 +81,12 @@ class _ExpertsState extends State<Experts> {
                 borderRadius: BorderRadius.circular(40),
               ),
               child: ListTile(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => ChineseWebPage()));
+                },
                 leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -106,6 +124,10 @@ class _ExpertsState extends State<Experts> {
                 borderRadius: BorderRadius.circular(40),
               ),
               child: ListTile(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (builder) => OrcaleWebPage()));
+                },
                 leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -143,6 +165,12 @@ class _ExpertsState extends State<Experts> {
                 borderRadius: BorderRadius.circular(40),
               ),
               child: ListTile(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => CrystalWebPage()));
+                },
                 leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -180,6 +208,10 @@ class _ExpertsState extends State<Experts> {
                 borderRadius: BorderRadius.circular(40),
               ),
               child: ListTile(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (builder) => DreamWebPage()));
+                },
                 leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -217,6 +249,12 @@ class _ExpertsState extends State<Experts> {
                 borderRadius: BorderRadius.circular(40),
               ),
               child: ListTile(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => ChingReadingWebPage()));
+                },
                 leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -254,6 +292,10 @@ class _ExpertsState extends State<Experts> {
                 borderRadius: BorderRadius.circular(40),
               ),
               child: ListTile(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (builder) => RunesWebPage()));
+                },
                 leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -291,6 +333,10 @@ class _ExpertsState extends State<Experts> {
                 borderRadius: BorderRadius.circular(40),
               ),
               child: ListTile(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (builder) => MagicWebPage()));
+                },
                 leading: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
