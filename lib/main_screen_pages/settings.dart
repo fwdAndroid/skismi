@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skismi/auth/login_screen.dart';
+import 'package:skismi/payment/subcription_ask.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -71,6 +72,10 @@ class _SettingsState extends State<Settings> {
             color: Colors.white,
           ),
           ListTile(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (builder) => SubsriptionAsk()));
+            },
             title: Text(
               "Member Support",
               style: TextStyle(color: Colors.white),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:skismi/auth/email_auth.dart';
 import 'package:skismi/database/databasemethods.dart';
 import 'package:skismi/status/checkstatus.dart';
 import 'package:skismi/user_info.dart';
@@ -35,6 +36,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           MaterialPageRoute(
                               builder: (builder) => CheckStatus()))
                     });
+              },
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20, right: 20),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(fixedSize: Size(340, 50)),
+              child: Text("Sign In with Email"),
+              onPressed: () async {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (builder) => EmailAuth()));
               },
             ),
           ),
