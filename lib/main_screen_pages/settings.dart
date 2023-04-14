@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skismi/auth/login_screen.dart';
 
 class Settings extends StatefulWidget {
@@ -13,10 +12,16 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Column(
+      body: ListView(
         children: [
           SizedBox(
             height: 20,
@@ -28,16 +33,13 @@ class _SettingsState extends State<Settings> {
           Divider(
             color: Colors.white,
           ),
-          ListTile(
-            onTap: _launchURL,
+          SwitchListTile(
             title: Text(
-              "Sound Effects",
+              "Sound",
               style: TextStyle(color: Colors.white),
             ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.white,
-            ),
+            value: true,
+            onChanged: (bool? value) {},
           ),
           Divider(
             color: Colors.white,
@@ -148,12 +150,5 @@ class _SettingsState extends State<Settings> {
         ],
       ),
     );
-  }
-
-  _launchURL() async {
-    final Uri _url = Uri.parse('https://flutter.dev');
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
   }
 }
