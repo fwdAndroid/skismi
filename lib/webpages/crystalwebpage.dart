@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:skismi/messages/messageai.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 class CrystalWebPage extends StatefulWidget {
   const CrystalWebPage({super.key});
@@ -29,7 +33,22 @@ class _CrystalWebPageState extends State<CrystalWebPage> {
             height: 10,
           ),
           ElevatedButton(
-            onPressed: _launchURL,
+            onPressed: () {
+              var uuid = Uuid().v4();
+              FirebaseFirestore.instance
+                  .collection("cardsreading")
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .collection("messageslist")
+                  .doc(uuid)
+                  .set({
+                "name": "Crystal Ball Reading",
+                "uuid": uuid,
+                "uid": FirebaseAuth.instance.currentUser!.uid
+              }).then((value) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (builder) => MessageAI()));
+              });
+            },
             child: Text("Chat with Crystal Ball Reading Expert"),
           )
         ],

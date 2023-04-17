@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:skismi/messages/messageai.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 class DreamWebPage extends StatefulWidget {
   const DreamWebPage({super.key});
@@ -29,7 +33,22 @@ class _DreamWebPageState extends State<DreamWebPage> {
             height: 10,
           ),
           ElevatedButton(
-            onPressed: _launchURL,
+            onPressed: () {
+              var uuid = Uuid().v4();
+              FirebaseFirestore.instance
+                  .collection("cardsreading")
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .collection("messageslist")
+                  .doc(uuid)
+                  .set({
+                "name": "Dream Interpretations",
+                "uuid": uuid,
+                "uid": FirebaseAuth.instance.currentUser!.uid
+              }).then((value) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (builder) => MessageAI()));
+              });
+            },
             child: Text("Chat with Dream Interpretations Expert"),
           )
         ],

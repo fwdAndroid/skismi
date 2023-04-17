@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skismi/messages/messageai.dart';
 
 class MyChat extends StatelessWidget {
   const MyChat({super.key});
@@ -24,14 +25,9 @@ class MyChat extends StatelessWidget {
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: <Widget>[
-            Center(
-              child: Text(
-                "No Chat Start",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+            MessageAI(),
             Center(
               child: Text(
                 "No Expert is Selected",

@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:skismi/main_screen_pages/chatpage.dart';
+import 'package:skismi/messages/messageai.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 class TarrotWebPage extends StatefulWidget {
   const TarrotWebPage({super.key});
@@ -29,7 +34,22 @@ class _TarrotWebPageState extends State<TarrotWebPage> {
             height: 10,
           ),
           ElevatedButton(
-            onPressed: _launchURL,
+            onPressed: () {
+              var uuid = Uuid().v4();
+              FirebaseFirestore.instance
+                  .collection("cardsreading")
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .collection("messageslist")
+                  .doc(uuid)
+                  .set({
+                "name": "Tarot Card",
+                "uuid": uuid,
+                "uid": FirebaseAuth.instance.currentUser!.uid
+              }).then((value) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (builder) => MessageAI()));
+              });
+            },
             child: Text("Chat with Tarot Expert"),
           )
         ],
@@ -38,7 +58,7 @@ class _TarrotWebPageState extends State<TarrotWebPage> {
   }
 
   _launchURL() async {
-    final Uri _url = Uri.parse('https://skismi.com/tarot-card-results/');
+    final Uri _url = Uri.parse('https://skismi.com/tarot-card-results2/');
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }
