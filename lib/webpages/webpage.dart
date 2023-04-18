@@ -1,18 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyWidget extends StatefulWidget {
   String url;
-  MyWidget({super.key, required this.url});
+  String title;
+  MyWidget({super.key, required this.url, required this.title});
 
   @override
   State<MyWidget> createState() => _MyWidgetState();
 }
 
 class _MyWidgetState extends State<MyWidget> {
+  WebViewController _controller = WebViewController();
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        backgroundColor: Colors.black,
+        actions: [
+          TextButton(
+              onPressed: () {
+                _controller.reload();
+              },
+              child: Text("Reload"))
+        ],
+      ),
+      body: WebViewWidget(
+        controller: _controller
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setBackgroundColor(const Color(0x00000000))
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onProgress: (int progress) {
+                // Update loading bar.
+              },
+              onPageStarted: (String url) {},
+              onPageFinished: (String url) {},
+              onWebResourceError: (WebResourceError error) {},
+            ),
+          )
+          ..loadRequest(Uri.parse(widget.url)),
+      ),
+    );
   }
 }
