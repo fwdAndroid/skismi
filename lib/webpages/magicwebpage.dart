@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:skismi/messages/messageai.dart';
+import 'package:skismi/webpages/webpage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
@@ -26,7 +27,15 @@ class _MagicWebPageState extends State<MagicWebPage> {
         children: [
           Image.asset("assets/logo.png"),
           ElevatedButton(
-            onPressed: _launchURL,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (builder) => MyWidget(
+                            url: "https://skismi.com/magic-eight-ball-results/",
+                            title: "Magic Eight Ball",
+                          )));
+            },
             child: Text("Open Magic Eight Ball"),
           ),
           SizedBox(

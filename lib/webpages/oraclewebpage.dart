@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:skismi/messages/messageai.dart';
+import 'package:skismi/webpages/webpage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
@@ -26,7 +25,15 @@ class _OrcaleWebPageState extends State<OrcaleWebPage> {
         children: [
           Image.asset("assets/logo.png"),
           ElevatedButton(
-            onPressed: _launchURL,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (builder) => MyWidget(
+                            url: "https://skismi.com/oracle-test/",
+                            title: "Oracle Consultations",
+                          )));
+            },
             child: Text("Open Oracle Consultations"),
           ),
           SizedBox(
@@ -54,12 +61,5 @@ class _OrcaleWebPageState extends State<OrcaleWebPage> {
         ],
       ),
     );
-  }
-
-  _launchURL() async {
-    final Uri _url = Uri.parse('https://skismi.com/oracle-test/');
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
   }
 }
