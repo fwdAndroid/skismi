@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skismi/auth/login_screen.dart';
 import 'package:skismi/payment/subcription_ask.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -46,6 +47,7 @@ class _SettingsState extends State<Settings> {
             color: Colors.white,
           ),
           ListTile(
+            onTap: _launchURL,
             title: Text(
               "Privacy Policy",
               style: TextStyle(color: Colors.white),
@@ -59,6 +61,7 @@ class _SettingsState extends State<Settings> {
             color: Colors.white,
           ),
           ListTile(
+            onTap: _launchTerms,
             title: Text(
               "Terms of Services",
               style: TextStyle(color: Colors.white),
@@ -155,5 +158,19 @@ class _SettingsState extends State<Settings> {
         ],
       ),
     );
+  }
+
+  _launchURL() async {
+    final Uri _url = Uri.parse('https://skismi.com/privacy-policy/');
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
+  void _launchTerms() async {
+    final Uri _url = Uri.parse('https://skismi.com/terms/');
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }
