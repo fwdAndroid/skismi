@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -13,6 +14,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final List<String> imgList = [
+    'assets/robot.png',
+    'assets/space.png',
+    'assets/think.png',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,10 +37,23 @@ class _MainScreenState extends State<MainScreen> {
               height: 50,
             ),
             Spacer(),
-            Image.asset(
-              "assets/robot.png",
-              height: 350,
-            ),
+            Container(
+                height: 500,
+                child: CarouselSlider(
+                  options: CarouselOptions(autoPlay: true),
+                  items: imgList
+                      .map((item) => Container(
+                            height: 500,
+                            child: Center(
+                                child: Image.asset(
+                              item,
+                              fit: BoxFit.fill,
+                              width: 250,
+                              height: 350,
+                            )),
+                          ))
+                      .toList(),
+                )),
             Spacer(),
             Container(
               margin: EdgeInsets.only(bottom: 20),
