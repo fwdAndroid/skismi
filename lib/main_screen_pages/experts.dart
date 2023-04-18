@@ -63,7 +63,7 @@ class _ExpertsState extends State<Experts> {
                       height: 10,
                     ),
                     Text(
-                      "tarot is used as a form of cartomancy in which practitioners draws cards to  gain insight around a situation",
+                      "For Tarot: Tarot is a form of divination in which our AI bot will draw cards from the 78 card tarot deck to gain insight and illumination about your situation",
                       style: TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ],
@@ -147,7 +147,7 @@ class _ExpertsState extends State<Experts> {
                       height: 10,
                     ),
                     Text(
-                      "I believe that consulting an oracle deck is one of the best ways to do an intuitive reading",
+                      "Oracle: Consulting an Oracle deck is one of the best ways to do an Intuitive reading.",
                       style: TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ],
@@ -190,7 +190,7 @@ class _ExpertsState extends State<Experts> {
                       height: 10,
                     ),
                     Text(
-                      "The crystal ball, the clairvoyant will tell you your destiny. Do you feel the urge or need to know what is happening to you?",
+                      "Crystal ball: As our AI bot gazes into the crystal ball it describes the ups, downs and adventures it sees in your future.",
                       style: TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ],
@@ -231,7 +231,7 @@ class _ExpertsState extends State<Experts> {
                       height: 10,
                     ),
                     Text(
-                      "Nine common dream interpretations, what some of these common dream themes mean, and how to analyze your own dreams.",
+                      "Dream Interpretations: Our AI bot will discuss the patterns, themes and symbols in your dreams and their meanings for your waking life.",
                       style: TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ],
@@ -265,7 +265,7 @@ class _ExpertsState extends State<Experts> {
                   ],
                 ),
                 title: Text(
-                  "I Ching readings",
+                  "I Ching",
                   style: TextStyle(color: Colors.white, fontSize: 24),
                 ),
                 subtitle: Column(
@@ -315,7 +315,7 @@ class _ExpertsState extends State<Experts> {
                       height: 10,
                     ),
                     Text(
-                      "Online rune reading and experience an ancient form of divination and fortune-telling.",
+                      "Runes readings: Our AI-generated runes readings app unlocks the mysteries of the ancient world, providing personalized insights into your future through the interpretation of runic symbols.",
                       style: TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ],
