@@ -48,7 +48,7 @@ class _ExpertsState extends State<Experts> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/t.png",
+                      "assets/ww.png",
                       height: 54,
                     ),
                   ],
@@ -91,7 +91,7 @@ class _ExpertsState extends State<Experts> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/chineses.png",
+                      "assets/cjs.png",
                       height: 54,
                     ),
                   ],
@@ -132,7 +132,7 @@ class _ExpertsState extends State<Experts> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/ass.png",
+                      "assets/cjs.png",
                       height: 54,
                     ),
                   ],
@@ -175,7 +175,7 @@ class _ExpertsState extends State<Experts> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/crystal.png",
+                      "assets/women.png",
                       height: 54,
                     ),
                   ],
@@ -216,7 +216,7 @@ class _ExpertsState extends State<Experts> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/dream.png",
+                      "assets/clouds.png",
                       height: 54,
                     ),
                   ],
@@ -259,7 +259,7 @@ class _ExpertsState extends State<Experts> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/ink.png",
+                      "assets/hs.png",
                       height: 54,
                     ),
                   ],
@@ -300,7 +300,7 @@ class _ExpertsState extends State<Experts> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/download__1_-removebg-preview.png",
+                      "assets/gold.png",
                       height: 54,
                     ),
                   ],
@@ -341,7 +341,7 @@ class _ExpertsState extends State<Experts> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/bakk.png",
+                      "assets/blackball.png",
                       height: 54,
                     ),
                   ],
