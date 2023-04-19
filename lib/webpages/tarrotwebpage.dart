@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:skismi/main_screen_pages/chatpage.dart';
+import 'package:skismi/messages/message_screen.dart';
 import 'package:skismi/messages/messageai.dart';
 import 'package:skismi/webpages/webpage.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -55,8 +56,13 @@ class _TarrotWebPageState extends State<TarrotWebPage> {
                 "uuid": uuid,
                 "uid": FirebaseAuth.instance.currentUser!.uid
               }).then((value) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (builder) => MessageAI()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (builder) => MessageScreen(
+                              name: "Tarot Card",
+                              uuid: uuid,
+                            )));
               });
             },
             child: Text("Chat with Tarot Expert"),
