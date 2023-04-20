@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:skismi/messages/message_screen.dart';
+import 'package:skismi/messages/chat_screen.dart';
 import 'package:skismi/messages/messageai.dart';
 import 'package:skismi/webpages/webpage.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -58,7 +56,7 @@ class _MagicWebPageState extends State<MagicWebPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (builder) => MessageScreen(
+                        builder: (builder) => ChatScreen(
                               name: "Magic Eight Ball",
                               uuid: uuid,
                             )));

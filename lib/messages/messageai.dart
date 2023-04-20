@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:skismi/messages/message_screen.dart';
+import 'package:skismi/messages/chat_screen.dart';
 
 class MessageAI extends StatefulWidget {
   MessageAI({
@@ -59,7 +59,7 @@ class _MessageAIState extends State<MessageAI> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (builder) => MessageScreen(
+                                  builder: (builder) => ChatScreen(
                                       name: data['name'], uuid: data["uuid"])));
                         },
                         leading: CircleAvatar(
