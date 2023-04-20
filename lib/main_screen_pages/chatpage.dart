@@ -28,12 +28,7 @@ class MyChat extends StatelessWidget {
         body: TabBarView(
           children: <Widget>[
             MessageAI(),
-            Center(
-              child: Text(
-                "No Expert is Selected",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+            MessageAI(),
           ],
         ),
       ),

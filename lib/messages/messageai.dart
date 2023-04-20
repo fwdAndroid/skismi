@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:skismi/messages/message_screen.dart';
 
 class MessageAI extends StatefulWidget {
   MessageAI({
@@ -54,6 +55,13 @@ class _MessageAIState extends State<MessageAI> {
                   return Column(
                     children: [
                       ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => MessageScreen(
+                                      name: data['name'], uuid: data["uuid"])));
+                        },
                         leading: CircleAvatar(
                           backgroundImage: AssetImage("assets/logo.png"),
                         ),
