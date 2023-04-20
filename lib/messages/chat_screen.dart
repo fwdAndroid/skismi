@@ -25,8 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     chatGPT = OpenAI.instance.build(
-        token: "",
-        // "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",
+        token: "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",
         baseOption: HttpSetup(receiveTimeout: Duration(seconds: 6000)));
     super.initState();
   }
@@ -44,7 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (_controller.text.isEmpty) return;
     ChatMessage message = ChatMessage(
       text: _controller.text,
-      sender: "user",
+      sender: widget.name,
       isImage: false,
     );
 
@@ -73,7 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void insertNewData(String response, {bool isImage = false}) {
     ChatMessage botMessage = ChatMessage(
       text: response,
-      sender: "bot",
+      sender: "Skismi",
       isImage: isImage,
     );
 
@@ -91,7 +90,7 @@ class _ChatScreenState extends State<ChatScreen> {
             controller: _controller,
             onSubmitted: (value) => _sendMessage(),
             decoration: const InputDecoration.collapsed(
-                hintText: "Question/description"),
+                hintText: "Write Your Question"),
           ),
         ),
         ButtonBar(
@@ -103,12 +102,12 @@ class _ChatScreenState extends State<ChatScreen> {
                 _sendMessage();
               },
             ),
-            TextButton(
-                onPressed: () {
-                  _isImageSearch = true;
-                  _sendMessage();
-                },
-                child: const Text("Generate Image"))
+            // TextButton(
+            //     onPressed: () {
+            //       _isImageSearch = true;
+            //       _sendMessage();
+            //     },
+            //     child: const Text("Generate Image"))
           ],
         ),
       ],
@@ -118,7 +117,9 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("ChatGPT & Dall-E2 Demo")),
+        appBar: AppBar(
+            backgroundColor: Colors.black,
+            title: const Text("Chat with Skismi")),
         body: SafeArea(
           child: Column(
             children: [
