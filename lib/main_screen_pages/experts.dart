@@ -132,7 +132,7 @@ class _ExpertsState extends State<Experts> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/cjs.png",
+                      "assets/oracle.png",
                       height: 54,
                     ),
                   ],

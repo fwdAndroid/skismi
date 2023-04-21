@@ -56,14 +56,14 @@ class MyApp extends StatelessWidget {
       home: AnimatedSplashScreen(
         nextScreen: LoginScreen(),
         splash: Image.asset(
-          'assets/logo.png',
+          'assets/adad.jpg',
           fit: BoxFit.cover,
         ),
         duration: 3000,
         splashIconSize: 400,
         splashTransition: SplashTransition.slideTransition,
         pageTransitionType: PageTransitionType.fade,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
       ),
     );
   }
