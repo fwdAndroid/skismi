@@ -1,79 +1,147 @@
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyWidget extends StatefulWidget {
   String url;
   String title;
-  MyWidget({super.key, required this.url, required this.title});
 
+  MyWidget({required this.title, required this.url});
   @override
-  State<MyWidget> createState() => _MyWidgetState();
+  _MyWidgetState createState() => new _MyWidgetState();
 }
 
 class _MyWidgetState extends State<MyWidget> {
+  final GlobalKey webViewKey = GlobalKey();
+
+  InAppWebViewController? webViewController;
+
+  PullToRefreshController? pullToRefreshController;
+  String url = "";
+  double progress = 0;
+  final urlController = TextEditingController();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    pullToRefreshController = kIsWeb
+        ? null
+        : PullToRefreshController(
+            onRefresh: () async {
+              if (defaultTargetPlatform == TargetPlatform.android) {
+                webViewController?.reload();
+              } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+                webViewController?.loadUrl(
+                    urlRequest:
+                        URLRequest(url: await webViewController?.getUrl()));
+              }
+            },
+          );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: Text(widget.title),
-        backgroundColor: Colors.black,
-        actions: [
-          TextButton(
-              onPressed: () {
-                WebViewController().reload();
-              },
-              child: Text("Reload"))
-        ],
-      ),
-      body: WebViewWidget(
-        controller: WebViewController()
-          ..setJavaScriptMode(JavaScriptMode.unrestricted)
-          ..setBackgroundColor(const Color(0x00000000))
-          ..setNavigationDelegate(
-            NavigationDelegate(
-              onProgress: (int progress) {
-                // Update loading bar.
-              },
-              onPageStarted: (String url) {},
-              onPageFinished: (String url) {},
-              onWebResourceError: (WebResourceError error) {},
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text(widget.title),
+          backgroundColor: Colors.black,
+        ),
+        body: SafeArea(
+            child: Column(children: <Widget>[
+          Expanded(
+            child: Stack(
+              children: [
+                InAppWebView(
+                  key: webViewKey,
+                  initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
+                  pullToRefreshController: pullToRefreshController,
+                  onWebViewCreated: (controller) {
+                    webViewController = controller;
+                  },
+                  onLoadStart: (controller, url) {
+                    setState(() {
+                      this.url = url.toString();
+                      urlController.text = this.url;
+                    });
+                  },
+                  shouldOverrideUrlLoading:
+                      (controller, navigationAction) async {
+                    var uri = navigationAction.request.url!;
+
+                    if (![
+                      "http",
+                      "https",
+                      "file",
+                      "chrome",
+                      "data",
+                      "javascript",
+                      "about"
+                    ].contains(uri.scheme)) {
+                      if (await canLaunchUrl(uri)) {
+                        // Launch the App
+                        await launchUrl(
+                          uri,
+                        );
+                        // and cancel the request
+                        return NavigationActionPolicy.CANCEL;
+                      }
+                    }
+
+                    return NavigationActionPolicy.ALLOW;
+                  },
+                  onLoadStop: (controller, url) async {
+                    pullToRefreshController?.endRefreshing();
+                    setState(() {
+                      this.url = url.toString();
+                      urlController.text = this.url;
+                    });
+                  },
+                  onProgressChanged: (controller, progress) {
+                    if (progress == 100) {
+                      pullToRefreshController?.endRefreshing();
+                    }
+                    setState(() {
+                      this.progress = progress / 100;
+                      urlController.text = this.url;
+                    });
+                  },
+                  onUpdateVisitedHistory: (controller, url, androidIsReload) {
+                    setState(() {
+                      this.url = url.toString();
+                      urlController.text = this.url;
+                    });
+                  },
+                  onConsoleMessage: (controller, consoleMessage) {
+                    print(consoleMessage);
+                  },
+                ),
+                progress < 1.0
+                    ? LinearProgressIndicator(value: progress)
+                    : Container(),
+              ],
             ),
-          )
-          ..addJavaScriptChannel(
-            'Toaster',
-            onMessageReceived: (JavaScriptMessage message) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message.message)),
-              );
-            },
-          )
-          ..loadRequest(Uri.parse(widget.url)),
-      ),
-      // Row(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     TextButton(
-      //         onPressed: () {
-      //           Navigator.pop(context);
-      //         },
-      //         child: Text("Go Back")),
-      //     SizedBox(
-      //       width: 20,
-      //     ),
-      //     TextButton(
-      //         onPressed: () {
-      //           _controller.reload();
-      //         },
-      //         child: Text("Reload"))
-      //   ],
-      // )
-    );
+          ),
+          ButtonBar(
+            alignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                child: Icon(Icons.refresh),
+                onPressed: () {
+                  webViewController?.reload();
+                },
+              ),
+              ElevatedButton(
+                child: Text("Back"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ])));
   }
 }

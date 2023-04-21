@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:skismi/auth/login_screen.dart';
 import 'package:skismi/main_screen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -9,6 +11,9 @@ Future<void> main() async {
   // Ensure that plugin services are initialized so that `availableCameras()`
   // can be called before `runApp()`
   WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    await InAppWebViewController.getDefaultUserAgent();
+  }
   await Firebase.initializeApp();
 
   // // Obtain a list of the available cameras on the device.
