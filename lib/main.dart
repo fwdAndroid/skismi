@@ -2,10 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:provider/provider.dart';
 import 'package:skismi/auth/login_screen.dart';
 import 'package:skismi/main_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:skismi/providers/chats_provider.dart';
+import 'package:skismi/providers/models_provider.dart';
 
 Future<void> main() async {
   // Ensure that plugin services are initialized so that `availableCameras()`
@@ -23,13 +26,23 @@ Future<void> main() async {
   // final firstCamera = cameras.first;
 
   runApp(
-    MaterialApp(home: MyApp()
-
-        // TakePictureScreen(
-        //   // Pass the appropriate camera to the TakePictureScreen widget.
-        //   camera: firstCamera,
-        // ),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ModelsProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ChatProvider(),
+        ),
+      ],
+      child: MaterialApp(home: MyApp()
+
+          // TakePictureScreen(
+          //   // Pass the appropriate camera to the TakePictureScreen widget.
+          //   camera: firstCamera,
+          // ),
+          ),
+    ),
   );
 }
 
