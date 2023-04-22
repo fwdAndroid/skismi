@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:skismi/auth/login_screen.dart';
 import 'package:skismi/main_screen.dart';
@@ -17,6 +18,8 @@ Future<void> main() async {
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
     await InAppWebViewController.getDefaultUserAgent();
   }
+  Stripe.publishableKey =
+      'pk_test_51KxapZBmHAwiQPYIuhMu1UtbLnLzL0mQAxLN2aauvJxtHTjEFI5CGfA8yptCI7iklCb1ffAnrvxyR8e8iP3B88JA00GktN5pqZ';
   await Firebase.initializeApp();
 
   // // Obtain a list of the available cameras on the device.
