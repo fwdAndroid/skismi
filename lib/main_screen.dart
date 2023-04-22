@@ -31,37 +31,75 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
         backgroundColor: Colors.black,
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: 30,
+              height: 20,
             ),
             Image.asset(
               "assets/text.png",
               height: 50,
             ),
-            Spacer(),
-            Container(
-                height: 500,
+            // Container(
+            //     child: CarouselSlider(
+            //   options: CarouselOptions(
+            //     disableCenter: false,
+            //   ),
+            //   items: choices
+            //       .map((Choice) => Container(
+            //             child: Column(
+            //               mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //               children: [
+            //                 Container(
+            //                   child: Column(
+            //                     children: [
+            //                       Text(
+            //                         Choice.title,
+            //                         style: null,
+            //                         textAlign: TextAlign.left,
+            //                       ),
+            //                       Text(
+            //                         Choice.content,
+            //                         style: null,
+            //                         textAlign: TextAlign.left,
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           ))
+            //       .toList(),
+            // )),
+            Expanded(
                 child: CarouselSlider(
-                  options: CarouselOptions(autoPlay: true),
-                  items: imgList
-                      .map((item) => Container(
-                            height: 500,
-                            child: Center(
-                                child: Image.asset(
-                              item,
-                              fit: BoxFit.fill,
-                              width: 250,
-                              height: 350,
-                            )),
-                          ))
-                      .toList(),
-                )),
-            Spacer(),
+              options: CarouselOptions(autoPlay: true),
+              items: choices
+                  .map((Choice) => Container(
+                        height: MediaQuery.of(context).size.height,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                Choice.title,
+                                fit: BoxFit.fill,
+                                width: 250,
+                                height: 250,
+                              ),
+                            ),
+                            Text(
+                              Choice.content,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            )
+                          ],
+                        ),
+                      ))
+                  .toList(),
+            )),
             Container(
-              margin: EdgeInsets.only(bottom: 30),
+              margin: EdgeInsets.only(bottom: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -145,3 +183,33 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
+
+//?Coursel Class
+class Choice {
+  const Choice({required this.title, required this.content});
+
+  final String title;
+
+  final String content;
+}
+
+const List<Choice> choices = const <Choice>[
+  const Choice(
+      title: 'assets/blackball.png',
+      content: 'The Magic Eight-Ball can predict the future'),
+  const Choice(
+      title: 'assets/gold.png',
+      content: 'Uncover the timeless wisdom of the Runes'),
+  const Choice(title: 'assets/ww.png', content: 'Tarot guide you'),
+  const Choice(
+      title: 'assets/women.png',
+      content: 'Stare into the Crystal Ball with me'),
+  const Choice(
+      title: 'assets/hs.png', content: 'The I Ching has answers for you'),
+  const Choice(
+      title: 'assets/clouds.png',
+      content: 'Discover the meaning of your dreams'),
+  const Choice(
+      title: 'assets/cjs.png',
+      content: 'Find ancient wisdom with your Chinese Horoscope'),
+];
