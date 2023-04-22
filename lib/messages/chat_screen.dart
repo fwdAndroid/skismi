@@ -46,9 +46,9 @@ class _ChatScreenState extends State<ChatScreen> {
     final modelsProvider = Provider.of<ModelsProvider>(context);
     final chatProvider = Provider.of<ChatProvider>(context);
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        elevation: 2,
-
+        backgroundColor: Colors.black,
         title: const Text("Skismi"),
         // actions: [
         //   IconButton(

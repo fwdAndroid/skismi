@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:skismi/main_screen.dart';
+import 'package:skismi/payment/subcription_ask.dart';
 import 'package:skismi/status/blockuser.dart';
 
 class UserStatus extends StatefulWidget {
@@ -45,7 +46,7 @@ class _UserStatusState extends State<UserStatus> {
           context, MaterialPageRoute(builder: (builder) => BlockUser()));
     } else {
       Navigator.push(
-          context, MaterialPageRoute(builder: (builder) => MainScreen()));
+          context, MaterialPageRoute(builder: (builder) => SubsriptionAsk()));
     }
   }
 }
