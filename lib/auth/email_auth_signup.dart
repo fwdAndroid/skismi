@@ -97,7 +97,8 @@ class _EmailAuthSignUpState extends State<EmailAuthSignUp> {
           .showSnackBar(SnackBar(content: Text("All Fields are Required")));
     } else {
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email.text, password: pass.text)
+          .createUserWithEmailAndPassword(
+              email: email.text, password: pass.text)
           .then((value) {
         DatabaseMethods().numberAdd().then((value) => {
               Navigator.push(context,
