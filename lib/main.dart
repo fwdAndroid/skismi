@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
       home: AnimatedSplashScreen(
         nextScreen: LoginScreen(),
         splash: Image.asset(
-          'assets/adad.jpg',
+          'assets/adad.png',
           fit: BoxFit.cover,
         ),
         duration: 3000,

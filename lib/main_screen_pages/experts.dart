@@ -356,7 +356,7 @@ class _ExpertsState extends State<Experts> {
                       height: 10,
                     ),
                     Text(
-                      "Five blank cards and one 8-Ball card are shown on both sides. Then spectator is then asked to choose one of the face down cards",
+                      "The Magic Eight-Ball can answer your deepest questions.",
                       style: TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ],
