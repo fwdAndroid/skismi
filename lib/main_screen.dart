@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:skismi/main_screen_pages/chatpage.dart';
 import 'package:skismi/main_screen_pages/experts.dart';
 import 'package:skismi/main_screen_pages/settings.dart';
+import 'package:skismi/webpages/webpage.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -34,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: 20,
+              height: 30,
             ),
             Image.asset(
               "assets/text.png",
@@ -60,10 +61,11 @@ class _MainScreenState extends State<MainScreen> {
                 )),
             Spacer(),
             Container(
-              margin: EdgeInsets.only(bottom: 20),
+              margin: EdgeInsets.only(bottom: 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  //Rooms
                   InkWell(
                     onTap: () {
                       Navigator.push(context,
@@ -71,27 +73,37 @@ class _MainScreenState extends State<MainScreen> {
                     },
                     child: Image.asset(
                       "assets/person.png",
-                      height: 100,
-                      width: 100,
+                      height: 60,
+                      width: 60,
                     ),
                   ),
                   SizedBox(
-                    width: 20,
+                    width: 30,
                   ),
+                  //Trail
+
                   InkWell(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (builder) => MyChat()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => MyWidget(
+                                    url:
+                                        "https://skismi.com/tarot-card-results-trial/",
+                                    title: "Trial Page",
+                                  )));
                     },
                     child: Image.asset(
-                      "assets/chat.png",
-                      height: 100,
-                      width: 100,
+                      "assets/tt.png",
+                      height: 60,
+                      width: 60,
                     ),
                   ),
                   SizedBox(
-                    width: 20,
+                    width: 30,
                   ),
+
+                  //Privacy
                   InkWell(
                     onTap: () {
                       Navigator.push(context,
@@ -99,8 +111,29 @@ class _MainScreenState extends State<MainScreen> {
                     },
                     child: Image.asset(
                       "assets/setting.png",
-                      height: 100,
-                      width: 100,
+                      height: 60,
+                      width: 60,
+                    ),
+                  ),
+                  //Chat
+                  SizedBox(
+                    width: 30,
+                  ),
+
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => MyWidget(
+                                    url: "https://skismi.com/appvideos/",
+                                    title: "Video Page",
+                                  )));
+                    },
+                    child: Image.asset(
+                      "assets/video.png",
+                      height: 60,
+                      width: 60,
                     ),
                   ),
                 ],
