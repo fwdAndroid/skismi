@@ -18,8 +18,9 @@ Future<void> main() async {
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
     await InAppWebViewController.getDefaultUserAgent();
   }
-  Stripe.publishableKey =
-      'pk_test_51KxapZBmHAwiQPYIuhMu1UtbLnLzL0mQAxLN2aauvJxtHTjEFI5CGfA8yptCI7iklCb1ffAnrvxyR8e8iP3B88JA00GktN5pqZ';
+  Stripe.publishableKey = 'pk_test_yIyfhKjsB4pbmr1QoUWWVnqQ';
+  await Stripe.instance.applySettings();
+
   await Firebase.initializeApp();
 
   // // Obtain a list of the available cameras on the device.
@@ -79,7 +80,7 @@ class MyApp extends StatelessWidget {
         splashIconSize: 400,
         splashTransition: SplashTransition.slideTransition,
         pageTransitionType: PageTransitionType.fade,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
       ),
     );
   }
