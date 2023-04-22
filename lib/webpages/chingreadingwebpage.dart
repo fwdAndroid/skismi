@@ -26,7 +26,7 @@ class _ChingReadingWebPageState extends State<ChingReadingWebPage> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Image.asset("assets/logo.png"),
+          Image.asset("assets/hs.png"),
           ElevatedButton(
             onPressed: () {
               Navigator.push(

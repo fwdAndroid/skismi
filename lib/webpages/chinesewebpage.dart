@@ -26,7 +26,7 @@ class _ChineseWebPageState extends State<ChineseWebPage> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Image.asset("assets/logo.png"),
+          Image.asset("assets/cjs.png"),
           ElevatedButton(
             onPressed: () {
               Navigator.push(

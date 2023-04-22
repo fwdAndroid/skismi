@@ -23,7 +23,7 @@ class _OrcaleWebPageState extends State<OrcaleWebPage> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Image.asset("assets/logo.png"),
+          Image.asset("assets/oracle.png"),
           ElevatedButton(
             onPressed: () {
               Navigator.push(

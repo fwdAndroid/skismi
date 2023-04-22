@@ -26,7 +26,7 @@ class _CrystalWebPageState extends State<CrystalWebPage> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Image.asset("assets/logo.png"),
+          Image.asset("assets/women.png"),
           ElevatedButton(
             onPressed: () {
               Navigator.push(

@@ -24,7 +24,7 @@ class _MagicWebPageState extends State<MagicWebPage> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Image.asset("assets/logo.png"),
+          Image.asset("assets/blackball.png"),
           ElevatedButton(
             onPressed: () {
               Navigator.push(

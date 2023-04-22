@@ -25,7 +25,7 @@ class _TarrotWebPageState extends State<TarrotWebPage> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Image.asset("assets/logo.png"),
+          Image.asset("assets/ww.png"),
           ElevatedButton(
             onPressed: () {
               Navigator.push(

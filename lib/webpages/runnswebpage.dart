@@ -25,7 +25,7 @@ class _RunesWebPageState extends State<RunesWebPage> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Image.asset("assets/logo.png"),
+          Image.asset("assets/gold.png"),
           ElevatedButton(
             onPressed: () {
               Navigator.push(
