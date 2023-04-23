@@ -10,6 +10,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:skismi/providers/chats_provider.dart';
 import 'package:skismi/providers/models_provider.dart';
+import 'package:skismi/stripeexample.dart';
 
 Future<void> main() async {
   // Ensure that plugin services are initialized so that `availableCameras()`
@@ -18,7 +19,9 @@ Future<void> main() async {
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
     await InAppWebViewController.getDefaultUserAgent();
   }
-  Stripe.publishableKey = 'pk_test_yIyfhKjsB4pbmr1QoUWWVnqQ';
+  Stripe.publishableKey =
+      "pk_test_51MWx8OAVMyklfe3CsjEzA1CiiY0XBTlHYbZ8jQlGtVFIwQi4aNeGv8J1HUw4rgSavMTLzTwgn0XRlwoTVRFXyu2h00mRUeWmAf";
+
   await Stripe.instance.applySettings();
 
   await Firebase.initializeApp();
@@ -71,7 +74,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: AnimatedSplashScreen(
-        nextScreen: LoginScreen(),
+        nextScreen: StripeExample(),
         splash: Image.asset(
           'assets/adad.png',
           fit: BoxFit.cover,
