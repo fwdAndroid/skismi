@@ -48,8 +48,12 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.black,
-        title: const Text("Skismi"),
+        title: Text(
+          widget.name,
+          style: TextStyle(fontSize: 12),
+        ),
         // actions: [
         //   IconButton(
         //     onPressed: () async {

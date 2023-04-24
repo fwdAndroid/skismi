@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:skismi/main_screen_pages/chatpage.dart';
 import 'package:skismi/main_screen_pages/experts.dart';
 import 'package:skismi/main_screen_pages/settings.dart';
+import 'package:skismi/messages/chat_screen.dart';
 import 'package:skismi/webpages/webpage.dart';
 
 class MainScreen extends StatefulWidget {
@@ -47,30 +48,42 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
             Expanded(
-                child: CarouselSlider(
-              options: CarouselOptions(autoPlay: true),
-              items: choices
-                  .map((Choice) => Container(
-                        height: MediaQuery.of(context).size.height,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Image.asset(
-                                Choice.title,
-                                fit: BoxFit.fill,
-                                width: 250,
-                                height: 250,
-                              ),
+                child: GestureDetector(
+              child: CarouselSlider(
+                options: CarouselOptions(autoPlay: true),
+                items: choices
+                    .map((Choice) => Container(
+                          height: MediaQuery.of(context).size.height,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (builder) => ChatScreen(
+                                          name: Choice.content,
+                                          uuid: Choice.content)));
+                            },
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Image.asset(
+                                    Choice.title,
+                                    fit: BoxFit.fill,
+                                    width: 250,
+                                    height: 250,
+                                  ),
+                                ),
+                                Text(
+                                  Choice.content,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                )
+                              ],
                             ),
-                            Text(
-                              Choice.content,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            )
-                          ],
-                        ),
-                      ))
-                  .toList(),
+                          ),
+                        ))
+                    .toList(),
+              ),
             )),
             Container(
               margin: EdgeInsets.only(bottom: 20),
@@ -170,11 +183,12 @@ class Choice {
 const List<Choice> choices = const <Choice>[
   const Choice(
       title: 'assets/blackball.png',
-      content: 'The Magic Eight-Ball can predict the future'),
+      content: 'The Magic Eight-Ball has answers to your questions'),
   const Choice(
       title: 'assets/gold.png',
       content: 'Uncover the timeless wisdom of the Runes'),
-  const Choice(title: 'assets/ww.png', content: 'Tarot guide you'),
+  const Choice(
+      title: 'assets/ww.png', content: 'Let the wisdom of the Tarot guide you'),
   const Choice(
       title: 'assets/women.png',
       content: 'Stare into the Crystal Ball with me'),
