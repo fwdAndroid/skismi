@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: AnimatedSplashScreen(
-        nextScreen: StripeExample(),
+        nextScreen: LoginScreen(),
         splash: Image.asset(
           'assets/adad.png',
           fit: BoxFit.cover,
