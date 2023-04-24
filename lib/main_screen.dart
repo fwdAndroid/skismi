@@ -37,41 +37,15 @@ class _MainScreenState extends State<MainScreen> {
             SizedBox(
               height: 20,
             ),
-            Image.asset(
-              "assets/text.png",
+            Container(
+              margin: EdgeInsets.only(left: 10, right: 10, top: 20),
               height: 50,
+              child: Text(
+                "Welcome to the Skismi app Discover your destiny with Skismi's AI-generated divinations",
+                style: TextStyle(color: Colors.white, fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
             ),
-            // Container(
-            //     child: CarouselSlider(
-            //   options: CarouselOptions(
-            //     disableCenter: false,
-            //   ),
-            //   items: choices
-            //       .map((Choice) => Container(
-            //             child: Column(
-            //               mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //               children: [
-            //                 Container(
-            //                   child: Column(
-            //                     children: [
-            //                       Text(
-            //                         Choice.title,
-            //                         style: null,
-            //                         textAlign: TextAlign.left,
-            //                       ),
-            //                       Text(
-            //                         Choice.content,
-            //                         style: null,
-            //                         textAlign: TextAlign.left,
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           ))
-            //       .toList(),
-            // )),
             Expanded(
                 child: CarouselSlider(
               options: CarouselOptions(autoPlay: true),
