@@ -20,6 +20,7 @@ class Experts extends StatefulWidget {
 }
 
 class _ExpertsState extends State<Experts> {
+  int count = 7;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +48,7 @@ class _ExpertsState extends State<Experts> {
             Padding(
               padding: EdgeInsets.all(8),
               child: Text(
-                "Free Message This Week is 3 To get Complete Features Please Purchase the Subscription",
+                "Free Message This Week is $count To get Complete Features Please Purchase the Subscription",
                 style: TextStyle(color: Colors.white),
                 textAlign: TextAlign.center,
               ),
@@ -63,6 +64,12 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () {
+                    setState(() {
+                      if (count > 0)
+                        count--;
+                      else
+                        count = 0;
+                    });
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -109,6 +116,12 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () {
+                    setState(() {
+                      if (count > 0)
+                        count--;
+                      else
+                        count = 0;
+                    });
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -155,6 +168,12 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () {
+                    setState(() {
+                      if (count > 0)
+                        count--;
+                      else
+                        count = 0;
+                    });
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -201,6 +220,12 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () {
+                    setState(() {
+                      if (count > 0)
+                        count--;
+                      else
+                        count = 0;
+                    });
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -247,6 +272,12 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () {
+                    setState(() {
+                      if (count > 0)
+                        count--;
+                      else
+                        count = 0;
+                    });
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -293,6 +324,12 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () {
+                    setState(() {
+                      if (count > 0)
+                        count--;
+                      else
+                        count = 0;
+                    });
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -339,6 +376,12 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () {
+                    setState(() {
+                      if (count > 0)
+                        count--;
+                      else
+                        count = 0;
+                    });
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -385,6 +428,12 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () {
+                    setState(() {
+                      if (count > 0)
+                        count--;
+                      else
+                        count = 0;
+                    });
                     Navigator.push(
                         context,
                         MaterialPageRoute(
