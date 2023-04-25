@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +9,7 @@ import 'package:skismi/messages/constants/constants.dart';
 import 'package:skismi/messages/widgets/chat_widget.dart';
 import 'package:skismi/messages/widgets/text_widget.dart';
 import 'package:skismi/providers/chats_provider.dart';
+import 'package:uuid/uuid.dart';
 
 import '../providers/models_provider.dart';
 
@@ -20,10 +23,12 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   bool _isTyping = false;
+  int count = 3;
 
   late TextEditingController textEditingController;
   late ScrollController _listScrollController;
   late FocusNode focusNode;
+  var v4 = Uuid().v4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
   @override
   void initState() {
     _listScrollController = ScrollController();
@@ -54,14 +59,6 @@ class _ChatScreenState extends State<ChatScreen> {
           widget.name,
           style: TextStyle(fontSize: 12),
         ),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () async {
-        //       await Services.showModalSheet(context: context);
-        //     },
-        //     icon: const Icon(Icons.more_vert_rounded, color: Colors.white),
-        //   ),
-        // ],
       ),
       body: SafeArea(
         child: Column(
@@ -114,8 +111,13 @@ class _ChatScreenState extends State<ChatScreen> {
                     IconButton(
                         onPressed: () async {
                           await sendMessageFCT(
-                              modelsProvider: modelsProvider,
-                              chatProvider: chatProvider);
+                                  modelsProvider: modelsProvider,
+                                  chatProvider: chatProvider)
+                              .then((value) {
+                            setState(() {
+                              count--;
+                            });
+                          });
                         },
                         icon: const Icon(
                           Icons.send,
@@ -178,7 +180,11 @@ class _ChatScreenState extends State<ChatScreen> {
       //   message: textEditingController.text,
       //   modelId: modelsProvider.getCurrentModel,
       // ));
-      setState(() {});
+      print("read");
+
+      setState(() {
+        sendmessage(msg, 0);
+      });
     } catch (error) {
       log("error $error");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -192,6 +198,35 @@ class _ChatScreenState extends State<ChatScreen> {
         scrollListToEND();
         _isTyping = false;
       });
+    }
+  }
+
+  void sendmessage(String content, int type) {
+    // type: 0 = text, 1 = image, 2 = sticker
+    if (content.trim() != '') {
+      textEditingController.clear();
+
+      var documentReference = FirebaseFirestore.instance
+          .collection('messages')
+          .doc(widget.name)
+          .collection(widget.name)
+          .doc(DateTime.now().millisecondsSinceEpoch.toString());
+
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        await transaction.set(
+          documentReference,
+          {
+            "senderId": FirebaseAuth.instance.currentUser!.uid,
+            "receiverId": v4,
+            "time": DateTime.now().millisecondsSinceEpoch.toString(),
+            'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+            'content': content,
+            'type': 3
+          },
+        );
+      });
+    } else {
+      // Fluttertoast.showToast(msg: 'Nothing to send');
     }
   }
 }

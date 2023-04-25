@@ -42,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
               margin: EdgeInsets.only(left: 10, right: 10, top: 20),
               height: 50,
               child: Text(
-                "Welcome to the Skismi app Discover your destiny with Skismi's AI-generated divinations",
+                "Welcome to the Skismi app. Discover your destiny with Skismi's AI-generated divinations",
                 style: TextStyle(color: Colors.white, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
@@ -85,6 +85,18 @@ class _MainScreenState extends State<MainScreen> {
                     .toList(),
               ),
             )),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text(
+                "Get Readings Now",
+                style: TextStyle(color: Colors.white),
+              ),
+              style: ElevatedButton.styleFrom(
+                  shape: StadiumBorder(), fixedSize: Size(200, 60)),
+            ),
+            SizedBox(
+              height: 30,
+            ),
             Container(
               margin: EdgeInsets.only(bottom: 20),
               child: Row(

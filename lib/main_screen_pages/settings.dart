@@ -161,14 +161,14 @@ class _SettingsState extends State<Settings> {
   }
 
   _launchURL() async {
-    final Uri _url = Uri.parse('https://skismi.com/privacy-policy/');
+    final Uri _url = Uri.parse('https://skismi.com/app-privacy/');
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }
   }
 
   void _launchTerms() async {
-    final Uri _url = Uri.parse('https://skismi.com/terms/');
+    final Uri _url = Uri.parse('https://skismi.com/app-terms/');
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }
