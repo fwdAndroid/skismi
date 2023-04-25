@@ -6,6 +6,7 @@ import 'package:skismi/main_screen_pages/chatpage.dart';
 import 'package:skismi/main_screen_pages/experts.dart';
 import 'package:skismi/main_screen_pages/settings.dart';
 import 'package:skismi/messages/chat_screen.dart';
+import 'package:skismi/payment/subcription_ask.dart';
 import 'package:skismi/webpages/webpage.dart';
 
 class MainScreen extends StatefulWidget {
@@ -86,7 +87,10 @@ class _MainScreenState extends State<MainScreen> {
               ),
             )),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (builder) => SubsriptionAsk()));
+              },
               child: Text(
                 "Get Readings Now",
                 style: TextStyle(color: Colors.white),

@@ -14,7 +14,7 @@ class SubsriptionAsk extends StatefulWidget {
 }
 
 class _SubsriptionAskState extends State<SubsriptionAsk> {
-  Map<String, dynamic>? paymentIntentData;
+  Map<String, dynamic>? paymentIntent;
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -57,25 +57,30 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: Color(0xffFDDC5C),
-                    borderRadius: BorderRadius.circular(25)),
-                width: 150,
-                height: 100,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Weekly",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w900),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("\$ 7.99")
-                  ],
+              InkWell(
+                onTap: () async {
+                  await makePayment('7');
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Color(0xffFDDC5C),
+                      borderRadius: BorderRadius.circular(25)),
+                  width: 150,
+                  height: 100,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Weekly",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w900),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text("\$ 7.99")
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
@@ -83,7 +88,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
               ),
               InkWell(
                 onTap: () async {
-                  await makePayment();
+                  await makePayment('15');
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -114,7 +119,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
           ),
           InkWell(
             onTap: () async {
-              await makePayment();
+              await makePayment('69');
             },
             child: Container(
               decoration: BoxDecoration(
@@ -144,88 +149,61 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
   }
 
   //Payment Function
-  Future<void> makePayment() async {
+  Future<void> makePayment(var amounts) async {
     try {
-      paymentIntentData =
-          await createPaymentIntent('20', 'USD'); //json.decode(response.body);
-      // print('Response body==>${response.body.toString()}');
+      paymentIntent = await createPaymentIntent(amounts, 'USD');
+
+      //STEP 2: Initialize Payment Sheet
       await Stripe.instance
           .initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
-                  setupIntentClientSecret: 'sk_test_1AuH6JvVPa2YbtyuyulwaZ0F',
-                  paymentIntentClientSecret:
-                      paymentIntentData!['client_secret'],
-                  //applePay: PaymentSheetApplePay.,
-                  //googlePay: true,
-                  //testEnv: true,
-                  customFlow: true,
-                  style: ThemeMode.dark,
-                  // merchantCountryCode: 'US',
-                  merchantDisplayName: 'Kashif'))
+            paymentIntentClientSecret:
+                paymentIntent!['client_secret'], //Gotten from payment intent
+            style: ThemeMode.light,
+            merchantDisplayName: 'Abhi',
+          ))
           .then((value) {});
 
-      ///now finally display payment sheeet
+      //STEP 3: Display Payment sheet
       displayPaymentSheet();
-    } catch (e, s) {
-      print('Payment exception:$e$s');
+    } catch (err) {
+      print(err);
     }
   }
 
   displayPaymentSheet() async {
     try {
-      await Stripe.instance
-          .presentPaymentSheet(
-              //       parameters: PresentPaymentSheetParameters(
-              // clientSecret: paymentIntentData!['client_secret'],
-              // confirmPayment: true,
-              // )
-              )
-          .then((newValue) {
-        print('payment intent' + paymentIntentData!['id'].toString());
-        print(
-            'payment intent' + paymentIntentData!['client_secret'].toString());
-        print('payment intent' + paymentIntentData!['amount'].toString());
-        print('payment intent' + paymentIntentData.toString());
-        //orderPlaceApi(paymentIntentData!['id'].toString());
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("paid successfully")));
-
-        paymentIntentData = null;
-      }).onError((error, stackTrace) {
-        print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
+      await Stripe.instance.presentPaymentSheet().then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+          "Payment Done",
+          style: TextStyle(color: Colors.white),
+        )));
       });
-    } on StripeException catch (e) {
-      print('Exception/DISPLAYPAYMENTSHEET==> $e');
-      showDialog(
-          context: context,
-          builder: (_) => const AlertDialog(
-                content: Text("Cancelled "),
-              ));
     } catch (e) {
       print('$e');
     }
   }
 
-  //  Future<Map<String, dynamic>>
   createPaymentIntent(String amount, String currency) async {
     try {
       Map<String, dynamic> body = {
-        'amount': calculateAmount('20'),
+        'amount': amount,
         'currency': currency,
-        'payment_method_types[]': 'card',
       };
-      print(body);
+
       var response = await http.post(
-          Uri.parse('https://api.stripe.com/v1/payment_intents'),
-          body: body,
-          headers: {
-            'Authorization': 'Bearer ' + 'your token',
-            'Content-Type': 'application/x-www-form-urlencoded'
-          });
-      print('Create Intent reponse ===> ${response.body.toString()}');
-      return jsonDecode(response.body);
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        headers: {
+          'Authorization':
+              'Bearer sk_test_51MWx8OAVMyklfe3C3gP4wKOhTsRdF6r1PYhhg1PqupXDITMrV3asj5Mmf0G5F9moPL6zNfG3juK8KHgV9XNzFPlq00wmjWwZYA',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body,
+      );
+      return json.decode(response.body);
     } catch (err) {
-      print('err charging user: ${err.toString()}');
+      throw Exception(err.toString());
     }
   }
 

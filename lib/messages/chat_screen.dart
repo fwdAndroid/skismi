@@ -59,6 +59,33 @@ class _ChatScreenState extends State<ChatScreen> {
           widget.name,
           style: TextStyle(fontSize: 12),
         ),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection("messages")
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      Map<String, dynamic> data =
+                          snapshot.data!.data() as Map<String, dynamic>;
+                      return Text(
+                        "${data['count']}",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      );
+                    }
+
+                    return Text("Loading");
+                  }),
+            ),
+          )
+        ],
       ),
       body: SafeArea(
         child: Column(
@@ -113,11 +140,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           await sendMessageFCT(
                                   modelsProvider: modelsProvider,
                                   chatProvider: chatProvider)
-                              .then((value) {
-                            setState(() {
-                              count--;
-                            });
-                          });
+                              .then((value) {});
                         },
                         icon: const Icon(
                           Icons.send,
@@ -183,7 +206,8 @@ class _ChatScreenState extends State<ChatScreen> {
       print("read");
 
       setState(() {
-        sendmessage(msg, 0);
+        count--;
+        sendmessage(msg, count);
       });
     } catch (error) {
       log("error $error");
@@ -201,27 +225,23 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void sendmessage(String content, int type) {
+  void sendmessage(String content, int count) {
     // type: 0 = text, 1 = image, 2 = sticker
     if (content.trim() != '') {
       textEditingController.clear();
 
       var documentReference = FirebaseFirestore.instance
           .collection('messages')
-          .doc(widget.name)
-          .collection(widget.name)
-          .doc(DateTime.now().millisecondsSinceEpoch.toString());
-
+          .doc(FirebaseAuth.instance.currentUser!.uid);
       FirebaseFirestore.instance.runTransaction((transaction) async {
         await transaction.set(
           documentReference,
           {
             "senderId": FirebaseAuth.instance.currentUser!.uid,
-            "receiverId": v4,
             "time": DateTime.now().millisecondsSinceEpoch.toString(),
             'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
             'content': content,
-            'type': 3
+            'count': count--
           },
         );
       });
