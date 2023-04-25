@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skismi/auth/login_screen.dart';
-import 'package:skismi/payment/subcription_ask.dart';
+import 'package:mailto/mailto.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Settings extends StatefulWidget {
@@ -35,17 +35,6 @@ class _SettingsState extends State<Settings> {
           Divider(
             color: Colors.white,
           ),
-          SwitchListTile(
-            title: Text(
-              "Sound",
-              style: TextStyle(color: Colors.white),
-            ),
-            value: true,
-            onChanged: (bool? value) {},
-          ),
-          Divider(
-            color: Colors.white,
-          ),
           ListTile(
             onTap: _launchURL,
             title: Text(
@@ -63,7 +52,7 @@ class _SettingsState extends State<Settings> {
           ListTile(
             onTap: _launchTerms,
             title: Text(
-              "Terms of Services",
+              "Terms of Service",
               style: TextStyle(color: Colors.white),
             ),
             trailing: Icon(
@@ -75,10 +64,7 @@ class _SettingsState extends State<Settings> {
             color: Colors.white,
           ),
           ListTile(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (builder) => SubsriptionAsk()));
-            },
+            onTap: _urlEmail,
             title: Text(
               "Member Support",
               style: TextStyle(color: Colors.white),
@@ -172,5 +158,26 @@ class _SettingsState extends State<Settings> {
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }
+  }
+
+  final Uri emailLaunchUri = Uri(
+    scheme: 'mailto',
+    path: 'support@skismi.com',
+    queryParameters: {
+      'subject': 'Hello Skismi',
+      'body': 'I have an query',
+    },
+  );
+
+  void _urlEmail() async {
+    final mailtoLink = Mailto(
+      to: ['support@skismi.com'],
+      subject: 'Hello Skismi',
+      body: 'I have an query',
+    );
+    // Convert the Mailto instance into a string.
+    // Use either Dart's string interpolation
+    // or the toString() method.
+    await launch('$mailtoLink');
   }
 }
