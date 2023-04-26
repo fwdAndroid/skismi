@@ -1,10 +1,14 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skismi/main_screen.dart';
+import 'package:intl/intl.dart';
+import 'package:skismi/messages/chat_screen.dart';
 
 class SubsriptionAsk extends StatefulWidget {
   const SubsriptionAsk({super.key});
@@ -16,6 +20,16 @@ class SubsriptionAsk extends StatefulWidget {
 class _SubsriptionAskState extends State<SubsriptionAsk> {
   Map<String, dynamic>? paymentIntent;
   int selectedIndex = 0;
+  DateTime now = DateTime.now();
+  String startMonth = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String endMonth = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  String startYear = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String endYear = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  String formattedStartOfWeek = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String formattedEndOfWeek = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +73,24 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
             children: [
               InkWell(
                 onTap: () async {
-                  await makePayment("799");
+                  await makePayment("799").then((value) async {
+                    await FirebaseFirestore.instance
+                        .collection("subscriptions")
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .set({
+                      "type": "Weekly",
+                      "amount": "7.99",
+                      "uid": FirebaseAuth.instance.currentUser!.uid,
+                      "startDate": formattedStartOfWeek,
+                      "endDate": formattedEndOfWeek
+                    });
+                  }).then((value) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) =>
+                                ChatScreen(name: "", uuid: "")));
+                  });
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -88,7 +119,24 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
               ),
               InkWell(
                 onTap: () async {
-                  await makePayment("1599");
+                  await makePayment("1599").then((value) async {
+                    await FirebaseFirestore.instance
+                        .collection("subscriptions")
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .set({
+                      "type": "Monthly",
+                      "amount": "15.99",
+                      "uid": FirebaseAuth.instance.currentUser!.uid,
+                      "startDate": startMonth,
+                      "endDate": endMonth
+                    });
+                  }).then((value) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) =>
+                                ChatScreen(name: "", uuid: "")));
+                  });
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -119,7 +167,23 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
           ),
           InkWell(
             onTap: () async {
-              await makePayment("6999");
+              await makePayment("6999").then((value) async {
+                await FirebaseFirestore.instance
+                    .collection("subscriptions")
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .set({
+                  "type": "Yearly",
+                  "amount": "69.99",
+                  "uid": FirebaseAuth.instance.currentUser!.uid,
+                  "startDate": startYear,
+                  "endDate": endYear
+                });
+              }).then((value) {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (builder) => ChatScreen(name: "", uuid: "")));
+              });
             },
             child: Container(
               decoration: BoxDecoration(
@@ -177,7 +241,11 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
   displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) {
-        print("Payment Successfully");
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+          "Payment Successfully",
+          style: TextStyle(color: Colors.white),
+        )));
       });
     } catch (e) {
       print('$e');
