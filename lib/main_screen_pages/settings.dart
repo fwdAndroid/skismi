@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:skismi/auth/login_screen.dart';
 import 'package:mailto/mailto.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -67,6 +67,23 @@ class _SettingsState extends State<Settings> {
             onTap: _urlEmail,
             title: Text(
               "Member Support",
+              style: TextStyle(color: Colors.white),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+            ),
+          ),
+          Divider(
+            color: Colors.white,
+          ),
+          ListTile(
+            onTap: () {
+              Share.share('Check Out Skismi https://example.com',
+                  subject: 'Look what I made!');
+            },
+            title: Text(
+              "Share",
               style: TextStyle(color: Colors.white),
             ),
             trailing: Icon(
