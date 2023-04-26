@@ -19,8 +19,7 @@ Future<void> main() async {
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
     await InAppWebViewController.getDefaultUserAgent();
   }
-  Stripe.publishableKey =
-      "pk_test_51MWx8OAVMyklfe3CsjEzA1CiiY0XBTlHYbZ8jQlGtVFIwQi4aNeGv8J1HUw4rgSavMTLzTwgn0XRlwoTVRFXyu2h00mRUeWmAf";
+  Stripe.publishableKey = "pk_test_yIyfhKjsB4pbmr1QoUWWVnqQ";
 
   await Stripe.instance.applySettings();
 

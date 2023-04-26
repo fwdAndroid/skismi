@@ -59,7 +59,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
             children: [
               InkWell(
                 onTap: () async {
-                  await makePayment('7');
+                  await makePayment("799");
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -88,7 +88,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
               ),
               InkWell(
                 onTap: () async {
-                  await makePayment('15');
+                  await makePayment("1599");
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -119,7 +119,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
           ),
           InkWell(
             onTap: () async {
-              await makePayment('69');
+              await makePayment("6999");
             },
             child: Container(
               decoration: BoxDecoration(
@@ -149,19 +149,22 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
   }
 
   //Payment Function
-  Future<void> makePayment(var amounts) async {
+  Future<void> makePayment(String amount) async {
     try {
-      paymentIntent = await createPaymentIntent(amounts, 'USD');
+      paymentIntent = await createPaymentIntent(amount, 'USD');
+
+      var gpay = PaymentSheetGooglePay(
+          merchantCountryCode: "US", currencyCode: "USD", testEnv: true);
 
       //STEP 2: Initialize Payment Sheet
       await Stripe.instance
           .initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
-            paymentIntentClientSecret:
-                paymentIntent!['client_secret'], //Gotten from payment intent
-            style: ThemeMode.light,
-            merchantDisplayName: 'Abhi',
-          ))
+                  paymentIntentClientSecret: paymentIntent![
+                      'client_secret'], //Gotten from payment intent
+                  style: ThemeMode.light,
+                  merchantDisplayName: 'Abhi',
+                  googlePay: gpay))
           .then((value) {});
 
       //STEP 3: Display Payment sheet
@@ -174,11 +177,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
   displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-          "Payment Done",
-          style: TextStyle(color: Colors.white),
-        )));
+        print("Payment Successfully");
       });
     } catch (e) {
       print('$e');
@@ -195,8 +194,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
       var response = await http.post(
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
         headers: {
-          'Authorization':
-              'Bearer sk_test_51MWx8OAVMyklfe3C3gP4wKOhTsRdF6r1PYhhg1PqupXDITMrV3asj5Mmf0G5F9moPL6zNfG3juK8KHgV9XNzFPlq00wmjWwZYA',
+          'Authorization': 'Bearer sk_test_1AuH6JvVPa2YbtyuyulwaZ0F',
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: body,
