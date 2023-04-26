@@ -34,7 +34,7 @@ class _DreamWebPageState extends State<DreamWebPage> {
                   MaterialPageRoute(
                       builder: (builder) => MyWidget(
                             url: "https://skismi.com/dream-analysis/",
-                            title: "Dream Interpretations",
+                            title: "AI Dream Analysis",
                           )));
             },
             child: Text("Open Dream Interpretations"),
@@ -64,7 +64,7 @@ class _DreamWebPageState extends State<DreamWebPage> {
                             )));
               });
             },
-            child: Text("Chat with Dream Interpretations Expert"),
+            child: Text("Chat with AI Dream Analysis Expert"),
           )
         ],
       ),

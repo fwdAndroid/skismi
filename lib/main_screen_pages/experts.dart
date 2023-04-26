@@ -183,7 +183,7 @@ class _ExpertsState extends State<Experts> {
                     ],
                   ),
                   title: Text(
-                    "Oracle consultations",
+                    "Oracle Consultations",
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   subtitle: Column(
@@ -321,7 +321,7 @@ class _ExpertsState extends State<Experts> {
                     ],
                   ),
                   title: Text(
-                    "I Ching",
+                    "I Ching Readings",
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   subtitle: Column(

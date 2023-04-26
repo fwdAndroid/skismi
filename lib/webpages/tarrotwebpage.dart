@@ -36,7 +36,7 @@ class _TarrotWebPageState extends State<TarrotWebPage> {
                             title: "Tarot Card",
                           )));
             },
-            child: Text("Open Tarot Card"),
+            child: Text("Get Tarot Card Readings"),
           ),
           SizedBox(
             height: 10,
