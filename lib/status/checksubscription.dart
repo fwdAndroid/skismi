@@ -6,18 +6,17 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:skismi/main_screen.dart';
 import 'package:skismi/payment/subcription_ask.dart';
 import 'package:skismi/status/blockuser.dart';
-import 'package:skismi/status/checksubscription.dart';
 
-class UserStatus extends StatefulWidget {
-  const UserStatus({super.key});
+class CheckSubscription extends StatefulWidget {
+  const CheckSubscription({super.key});
 
   @override
-  State<UserStatus> createState() => _UserStatusState();
+  State<CheckSubscription> createState() => _CheckSubscriptionState();
 }
 
-class _UserStatusState extends State<UserStatus> {
+class _CheckSubscriptionState extends State<CheckSubscription> {
   final DocumentReference userRef = FirebaseFirestore.instance
-      .collection('users')
+      .collection('subscriptions')
       .doc(FirebaseAuth.instance.currentUser!.uid);
   @override
   void initState() {
@@ -30,7 +29,7 @@ class _UserStatusState extends State<UserStatus> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Verifying Users"),
+        child: Text("Checking Users Payment Status"),
       ),
     );
   }
@@ -40,14 +39,14 @@ class _UserStatusState extends State<UserStatus> {
     Map<String, dynamic> data = userSnapshot.data() as Map<String, dynamic>;
 
     ;
-    final isBlocked = data['blocked'];
+    final isBlocked = data['paid'];
     if (isBlocked == true) {
       // User is blocked
       Navigator.push(
-          context, MaterialPageRoute(builder: (builder) => BlockUser()));
+          context, MaterialPageRoute(builder: (builder) => MainScreen()));
     } else {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (builder) => CheckSubscription()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (builder) => SubsriptionAsk()));
     }
   }
 }

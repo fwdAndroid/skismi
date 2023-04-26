@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:skismi/messages/chat_screen.dart';
 
 class SubsriptionAsk extends StatefulWidget {
-  const SubsriptionAsk({super.key});
+  SubsriptionAsk({super.key});
 
   @override
   State<SubsriptionAsk> createState() => _SubsriptionAskState();
@@ -82,7 +82,8 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                       "amount": "7.99",
                       "uid": FirebaseAuth.instance.currentUser!.uid,
                       "startDate": formattedStartOfWeek,
-                      "endDate": formattedEndOfWeek
+                      "endDate": formattedEndOfWeek,
+                      "paid": true
                     });
                   }).then((value) {
                     Navigator.pushReplacement(
@@ -128,7 +129,8 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                       "amount": "15.99",
                       "uid": FirebaseAuth.instance.currentUser!.uid,
                       "startDate": startMonth,
-                      "endDate": endMonth
+                      "endDate": endMonth,
+                      "paid": true
                     });
                   }).then((value) {
                     Navigator.pushReplacement(
@@ -176,6 +178,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                   "amount": "69.99",
                   "uid": FirebaseAuth.instance.currentUser!.uid,
                   "startDate": startYear,
+                  "paid": true,
                   "endDate": endYear
                 });
               }).then((value) {
@@ -240,7 +243,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
 
   displayPaymentSheet() async {
     try {
-      await Stripe.instance.presentPaymentSheet().then((value) {
+      await Stripe.instance.presentPaymentSheet().then((value) async {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
           "Payment Successfully",

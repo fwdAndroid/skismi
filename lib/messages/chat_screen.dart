@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:skismi/main_screen.dart';
 import 'package:skismi/messages/constants/constants.dart';
 import 'package:skismi/messages/widgets/chat_widget.dart';
 import 'package:skismi/messages/widgets/text_widget.dart';
@@ -53,6 +54,16 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (builder) => MainScreen()));
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            )),
+        iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
         backgroundColor: Colors.black,
         title: Text(

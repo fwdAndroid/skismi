@@ -5,14 +5,14 @@ import 'package:skismi/auth/login_screen.dart';
 import 'package:mailto/mailto.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({super.key});
+class AppSettings extends StatefulWidget {
+  const AppSettings({super.key});
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<AppSettings> createState() => _AppSettingsState();
 }
 
-class _SettingsState extends State<Settings> {
+class _AppSettingsState extends State<AppSettings> {
   @override
   void initState() {
     // TODO: implement initState

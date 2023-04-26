@@ -8,6 +8,8 @@ import 'package:skismi/main_screen_pages/settings.dart';
 import 'package:skismi/messages/chat_screen.dart';
 import 'package:skismi/payment/subcription_ask.dart';
 import 'package:skismi/webpages/webpage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,6 +19,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final DocumentReference userRef = FirebaseFirestore.instance
+      .collection('subscriptions')
+      .doc(FirebaseAuth.instance.currentUser!.uid);
   final List<String> imgList = [
     'assets/blackball.png',
     'assets/gold.png',
@@ -88,8 +93,7 @@ class _MainScreenState extends State<MainScreen> {
             )),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (builder) => SubsriptionAsk()));
+                check();
               },
               child: Text(
                 "Get Readings Now",
@@ -147,8 +151,10 @@ class _MainScreenState extends State<MainScreen> {
                   //Privacy
                   InkWell(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (builder) => Settings()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => AppSettings()));
                     },
                     child: Image.asset(
                       "assets/setting.png",
@@ -184,6 +190,27 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
+  }
+
+  void check() async {
+    final DocumentSnapshot userSnapshot = await userRef.get();
+    Map<String, dynamic> data = userSnapshot.data() as Map<String, dynamic>;
+
+    ;
+    final isBlocked = data['paid'];
+    if (isBlocked == true) {
+      // User is blocked
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (builder) => ChatScreen(
+                    name: "",
+                    uuid: "",
+                  )));
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (builder) => SubsriptionAsk()));
+    }
   }
 }
 
