@@ -122,6 +122,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
       String rse = await DatabaseMethods().profileDetail(
         subscriptionTaken: false,
         subscriptionType: "zero",
+        promoCode: "",
         phoneNumber: phone.text,
         firstName: firstname.text,
         lastName: lastname.text,

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfileModel {
   String uid;
+  String promoCode;
   bool? subscriptionTaken;
   String? firstname;
   String? lastname;
@@ -16,6 +17,7 @@ class ProfileModel {
   ProfileModel(
       {this.phonenumber,
       required this.uid,
+      required this.promoCode,
       this.lastname,
       this.subscriptionTaken,
       this.firstname,
@@ -34,6 +36,7 @@ class ProfileModel {
         'subscriptionTaken': subscriptionTaken,
         'firstname': firstname,
         'paid': paid,
+        'promoCode': promoCode,
         'count': count,
         'email': email,
         'price': price,
@@ -55,6 +58,7 @@ class ProfileModel {
         blocked: snapshot['blocked'],
         count: snapshot['count'],
         email: snapshot['email'],
+        promoCode: snapshot['promoCode'],
         price: snapshot['price'],
         subscriptionType: snapshot['subscriptionType']);
   }

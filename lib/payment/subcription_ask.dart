@@ -85,18 +85,19 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                 InkWell(
                   onTap: () async {
                     await makePayment("799").then((value) async {
-                      ProfileModel profileModel = ProfileModel(
-                          uid: FirebaseAuth.instance.currentUser!.uid,
-                          blocked: false,
-                          paid: true,
-                          count: 3,
-                          subscriptionType: "Weekly",
-                          price: "7.99",
-                          subscriptionTaken: true);
                       await FirebaseFirestore.instance
                           .collection('users')
                           .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .update(profileModel.toJson());
+                          .update({
+                        "promoCodes": controller.text,
+                        "uid": FirebaseAuth.instance.currentUser!.uid,
+                        "blocked": false,
+                        "paid": true,
+                        "count": 3,
+                        "subscriptionType": "Weekly",
+                        "price": "7.99",
+                        "subscriptionTaken": true
+                      });
                     }).then((value) async {
                       Navigator.pushReplacement(
                           context,
@@ -133,18 +134,19 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                 InkWell(
                   onTap: () async {
                     await makePayment("1599").then((value) async {
-                      ProfileModel profileModel = ProfileModel(
-                          uid: FirebaseAuth.instance.currentUser!.uid,
-                          blocked: false,
-                          paid: true,
-                          count: 3,
-                          subscriptionType: "Monthly",
-                          price: "15.99",
-                          subscriptionTaken: true);
                       await FirebaseFirestore.instance
                           .collection('users')
                           .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .update(profileModel.toJson());
+                          .update({
+                        "promoCodes": controller.text,
+                        "uid": FirebaseAuth.instance.currentUser!.uid,
+                        "blocked": false,
+                        "paid": true,
+                        "count": 3,
+                        "subscriptionType": "Monthly",
+                        "price": "15.99",
+                        "subscriptionTaken": true
+                      });
                     }).then((value) async {
                       Navigator.pushReplacement(
                           context,
@@ -183,18 +185,19 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
             InkWell(
               onTap: () async {
                 await makePayment("6999").then((value) async {
-                  ProfileModel profileModel = ProfileModel(
-                      uid: FirebaseAuth.instance.currentUser!.uid,
-                      blocked: false,
-                      paid: true,
-                      count: 3,
-                      subscriptionType: "Yearly",
-                      price: "69.99",
-                      subscriptionTaken: true);
                   await FirebaseFirestore.instance
                       .collection('users')
                       .doc(FirebaseAuth.instance.currentUser!.uid)
-                      .update(profileModel.toJson());
+                      .update({
+                    "promoCodes": controller.text,
+                    "uid": FirebaseAuth.instance.currentUser!.uid,
+                    "blocked": false,
+                    "paid": true,
+                    "count": 3,
+                    "subscriptionType": "Yearly",
+                    'price': "69.99",
+                    "subscriptionTaken": true
+                  });
                 }).then((value) async {
                   Navigator.pushReplacement(
                       context,
