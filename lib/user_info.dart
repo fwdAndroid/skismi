@@ -120,11 +120,14 @@ class _ProfileInfoState extends State<ProfileInfo> {
         _isLoading = true;
       });
       String rse = await DatabaseMethods().profileDetail(
-        blocked: false,
+        subscriptionTaken: false,
+        subscriptionType: "zero",
         phoneNumber: phone.text,
         firstName: firstname.text,
         lastName: lastname.text,
         count: 3,
+        blocked: false,
+        email: FirebaseAuth.instance.currentUser!.email!,
         paid: false,
         uid: FirebaseAuth.instance.currentUser!.uid,
       );

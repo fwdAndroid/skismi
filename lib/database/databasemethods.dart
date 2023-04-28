@@ -45,8 +45,12 @@ class DatabaseMethods {
       //Add User to the database with modal
       ProfileModel userModel = ProfileModel(
         paid: false,
-        uid: FirebaseAuth.instance.currentUser!.uid,
         blocked: false,
+        uid: FirebaseAuth.instance.currentUser!.uid,
+        subscriptionTaken: false,
+        email: FirebaseAuth.instance.currentUser!.email,
+        subscriptionType: '',
+        price: '',
         count: 3,
         firstname: '',
         lastname: '',
@@ -71,9 +75,12 @@ class DatabaseMethods {
       {required String uid,
       required String firstName,
       required String lastName,
-      required bool blocked,
       required String phoneNumber,
       required int count,
+      required String email,
+      required bool blocked,
+      required String subscriptionType,
+      required bool subscriptionTaken,
       required bool paid}) async {
     String res = 'Some error occured';
 
@@ -83,9 +90,12 @@ class DatabaseMethods {
       ProfileModel userModel = ProfileModel(
         firstname: firstName,
         lastname: lastName,
+        email: email,
         phonenumber: phoneNumber,
-        blocked: blocked,
         count: count,
+        blocked: blocked,
+        subscriptionType: subscriptionType,
+        subscriptionTaken: false,
         paid: paid,
         uid: FirebaseAuth.instance.currentUser!.uid,
       );

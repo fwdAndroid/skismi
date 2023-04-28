@@ -2,32 +2,43 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfileModel {
   String uid;
-  bool blocked;
-  String firstname;
-  String lastname;
-  String phonenumber;
+  bool? subscriptionTaken;
+  String? firstname;
+  String? lastname;
+  String? phonenumber;
   bool paid;
+  bool blocked;
   int count;
+  String? subscriptionType;
+  String? email;
+  String? price;
 
-  ProfileModel({
-    required this.phonenumber,
-    required this.uid,
-    required this.lastname,
-    required this.blocked,
-    required this.firstname,
-    required this.paid,
-    required this.count,
-  });
+  ProfileModel(
+      {this.phonenumber,
+      required this.uid,
+      this.lastname,
+      this.subscriptionTaken,
+      this.firstname,
+      required this.blocked,
+      required this.paid,
+      required this.count,
+      this.email,
+      this.price,
+      this.subscriptionType});
 
   ///Converting OBject into Json Object
   Map<String, dynamic> toJson() => {
-        'uid': uid,
-        'paid': paid,
-        'blocked': blocked,
-        'lastname': lastname,
-        'firstname': firstname,
         'phonenumber': phonenumber,
-        'count': count
+        'uid': uid,
+        'lastname': lastname,
+        'subscriptionTaken': subscriptionTaken,
+        'firstname': firstname,
+        'paid': paid,
+        'count': count,
+        'email': email,
+        'price': price,
+        'blocked': blocked,
+        'subscriptionType': subscriptionType
       };
 
   ///
@@ -36,11 +47,15 @@ class ProfileModel {
 
     return ProfileModel(
         phonenumber: snapshot['phonenumber'],
-        paid: snapshot['paid'],
         uid: snapshot['uid'],
-        count: snapshot['count'],
-        blocked: snapshot['blocked'],
         lastname: snapshot['lastname'],
-        firstname: snapshot['firstname']);
+        subscriptionTaken: snapshot['subscriptionTaken'],
+        firstname: snapshot['firstname'],
+        paid: snapshot['paid'],
+        blocked: snapshot['blocked'],
+        count: snapshot['count'],
+        email: snapshot['email'],
+        price: snapshot['price'],
+        subscriptionType: snapshot['subscriptionType']);
   }
 }
