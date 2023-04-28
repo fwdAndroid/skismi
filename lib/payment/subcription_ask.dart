@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:skismi/main_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:skismi/messages/chat_screen.dart';
+import 'package:skismi/model/profile_model.dart';
 
 class SubsriptionAsk extends StatefulWidget {
   SubsriptionAsk({super.key});
@@ -18,18 +19,9 @@ class SubsriptionAsk extends StatefulWidget {
 }
 
 class _SubsriptionAskState extends State<SubsriptionAsk> {
+  TextEditingController controller = TextEditingController();
   Map<String, dynamic>? paymentIntent;
   int selectedIndex = 0;
-  DateTime now = DateTime.now();
-  String startMonth = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  String endMonth = DateFormat('yyyy-MM-dd').format(DateTime.now());
-
-  String startYear = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  String endYear = DateFormat('yyyy-MM-dd').format(DateTime.now());
-
-  String formattedStartOfWeek = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  String formattedEndOfWeek = DateFormat('yyyy-MM-dd').format(DateTime.now());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,187 +34,202 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.only(right: 10),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (builder) => MainScreen()));
-                },
-                icon: Icon(
-                  Icons.cancel,
-                  color: Colors.yellowAccent,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(right: 10),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (builder) => MainScreen()));
+                  },
+                  icon: Icon(
+                    Icons.cancel,
+                    color: Colors.yellowAccent,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          Image.asset("assets/ss.png"),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () async {
-                  await makePayment("799").then((value) async {
-                    await FirebaseFirestore.instance
-                        .collection("subscriptions")
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .set({
-                      "type": "Weekly",
-                      "amount": "7.99",
-                      "uid": FirebaseAuth.instance.currentUser!.uid,
-                      "startDate": formattedStartOfWeek,
-                      "endDate": formattedEndOfWeek,
-                      "paid": true
+            SizedBox(
+              height: 50,
+            ),
+            Image.asset("assets/ss.png"),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 10, left: 20, right: 20),
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    hintText: "Enter Promo Code",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: Colors.blue, width: 1.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    fillColor: Colors.white,
+                    filled: true),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    await makePayment("799").then((value) async {
+                      ProfileModel profileModel = ProfileModel(
+                          promoCodes: int.parse(controller.text),
+                          uid: FirebaseAuth.instance.currentUser!.uid,
+                          blocked: false,
+                          paid: true,
+                          count: 3,
+                          subscriptionType: "Weekly",
+                          price: "7.99",
+                          subscriptionTaken: true);
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .update(profileModel.toJson());
+                    }).then((value) async {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) =>
+                                  ChatScreen(name: "", uuid: "")));
                     });
-                  }).then((value) async {
-                    await FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .update({"paid": true});
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) =>
-                                ChatScreen(name: "", uuid: "")));
-                  });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Color(0xffFDDC5C),
-                      borderRadius: BorderRadius.circular(25)),
-                  width: 150,
-                  height: 100,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Weekly",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w900),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text("\$ 7.99")
-                    ],
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xffFDDC5C),
+                        borderRadius: BorderRadius.circular(25)),
+                    width: 150,
+                    height: 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Weekly",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w900),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text("\$ 7.99")
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              InkWell(
-                onTap: () async {
-                  await makePayment("1599").then((value) async {
-                    await FirebaseFirestore.instance
-                        .collection("subscriptions")
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .set({
-                      "type": "Monthly",
-                      "amount": "15.99",
-                      "uid": FirebaseAuth.instance.currentUser!.uid,
-                      "startDate": startMonth,
-                      "endDate": endMonth,
-                      "paid": true
-                    });
-                  }).then((value) async {
-                    await FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .update({"paid": true});
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) =>
-                                ChatScreen(name: "", uuid: "")));
-                  });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Color(0xffFDDC5C),
-                      borderRadius: BorderRadius.circular(25)),
-                  width: 150,
-                  height: 100,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Monthly",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w900),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text("\$ 15.99")
-                    ],
-                  ),
+                SizedBox(
+                  width: 15,
                 ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          InkWell(
-            onTap: () async {
-              await makePayment("6999").then((value) async {
-                await FirebaseFirestore.instance
-                    .collection("subscriptions")
-                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                    .set({
-                  "type": "Yearly",
-                  "amount": "69.99",
-                  "uid": FirebaseAuth.instance.currentUser!.uid,
-                  "startDate": startYear,
-                  "paid": true,
-                  "endDate": endYear
+                InkWell(
+                  onTap: () async {
+                    await makePayment("1599").then((value) async {
+                      ProfileModel profileModel = ProfileModel(
+                          promoCodes: int.parse(controller.text),
+                          uid: FirebaseAuth.instance.currentUser!.uid,
+                          blocked: false,
+                          paid: true,
+                          count: 3,
+                          subscriptionType: "Monthly",
+                          price: "15.99",
+                          subscriptionTaken: true);
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .update(profileModel.toJson());
+                    }).then((value) async {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) =>
+                                  ChatScreen(name: "", uuid: "")));
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xffFDDC5C),
+                        borderRadius: BorderRadius.circular(25)),
+                    width: 150,
+                    height: 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Monthly",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w900),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text("\$ 15.99")
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            InkWell(
+              onTap: () async {
+                await makePayment("6999").then((value) async {
+                  ProfileModel profileModel = ProfileModel(
+                      promoCodes: int.parse(controller.text),
+                      uid: FirebaseAuth.instance.currentUser!.uid,
+                      blocked: false,
+                      paid: true,
+                      count: 3,
+                      subscriptionType: "Yearly",
+                      price: "69.99",
+                      subscriptionTaken: true);
+                  await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .update(profileModel.toJson());
+                }).then((value) async {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) =>
+                              ChatScreen(name: "", uuid: "")));
                 });
-              }).then((value) async {
-                await FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                    .update({"paid": true});
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (builder) => ChatScreen(name: "", uuid: "")));
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Color(0xffFDDC5C),
-                  borderRadius: BorderRadius.circular(25)),
-              width: 150,
-              height: 100,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Yearly",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w900),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text("\$ 69.99")
-                ],
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color(0xffFDDC5C),
+                    borderRadius: BorderRadius.circular(25)),
+                width: 150,
+                height: 100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Yearly",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w900),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text("\$ 69.99")
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -290,6 +297,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
 
   calculateAmount(String amount) {
     final a = (int.parse(amount)) * 100;
-    return a.toString();
+    final b = a - int.parse(controller.text);
+    return b.toString();
   }
 }
