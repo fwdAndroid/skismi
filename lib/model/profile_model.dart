@@ -5,7 +5,6 @@ class ProfileModel {
   bool? subscriptionTaken;
   String? firstname;
   String? lastname;
-  int promoCodes;
   String? phonenumber;
   bool paid;
   bool blocked;
@@ -16,7 +15,6 @@ class ProfileModel {
 
   ProfileModel(
       {this.phonenumber,
-      required this.promoCodes,
       required this.uid,
       this.lastname,
       this.subscriptionTaken,
@@ -38,7 +36,6 @@ class ProfileModel {
         'paid': paid,
         'count': count,
         'email': email,
-        'promoCodes': promoCodes,
         'price': price,
         'blocked': blocked,
         'subscriptionType': subscriptionType
@@ -55,7 +52,6 @@ class ProfileModel {
         subscriptionTaken: snapshot['subscriptionTaken'],
         firstname: snapshot['firstname'],
         paid: snapshot['paid'],
-        promoCodes: snapshot['promoCodes'],
         blocked: snapshot['blocked'],
         count: snapshot['count'],
         email: snapshot['email'],

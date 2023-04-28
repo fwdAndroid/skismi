@@ -86,7 +86,6 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                   onTap: () async {
                     await makePayment("799").then((value) async {
                       ProfileModel profileModel = ProfileModel(
-                          promoCodes: int.parse(controller.text),
                           uid: FirebaseAuth.instance.currentUser!.uid,
                           blocked: false,
                           paid: true,
@@ -135,7 +134,6 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                   onTap: () async {
                     await makePayment("1599").then((value) async {
                       ProfileModel profileModel = ProfileModel(
-                          promoCodes: int.parse(controller.text),
                           uid: FirebaseAuth.instance.currentUser!.uid,
                           blocked: false,
                           paid: true,
@@ -186,7 +184,6 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
               onTap: () async {
                 await makePayment("6999").then((value) async {
                   ProfileModel profileModel = ProfileModel(
-                      promoCodes: int.parse(controller.text),
                       uid: FirebaseAuth.instance.currentUser!.uid,
                       blocked: false,
                       paid: true,

@@ -45,7 +45,6 @@ class DatabaseMethods {
       //Add User to the database with modal
       ProfileModel userModel = ProfileModel(
         paid: false,
-        promoCodes: 0,
         blocked: false,
         uid: FirebaseAuth.instance.currentUser!.uid,
         subscriptionTaken: false,
@@ -75,7 +74,6 @@ class DatabaseMethods {
   Future<String> profileDetail(
       {required String uid,
       required String firstName,
-      required int promocodes,
       required String lastName,
       required String phoneNumber,
       required int count,
@@ -90,7 +88,6 @@ class DatabaseMethods {
       //Add User to the database with modal
 
       ProfileModel userModel = ProfileModel(
-        promoCodes: 0,
         firstname: firstName,
         lastname: lastName,
         email: email,
