@@ -85,7 +85,11 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                       "endDate": formattedEndOfWeek,
                       "paid": true
                     });
-                  }).then((value) {
+                  }).then((value) async {
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .update({"paid": true});
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -132,7 +136,11 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                       "endDate": endMonth,
                       "paid": true
                     });
-                  }).then((value) {
+                  }).then((value) async {
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .update({"paid": true});
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -181,7 +189,11 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                   "paid": true,
                   "endDate": endYear
                 });
-              }).then((value) {
+              }).then((value) async {
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .update({"paid": true});
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

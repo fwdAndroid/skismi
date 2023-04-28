@@ -6,6 +6,8 @@ class ProfileModel {
   String firstname;
   String lastname;
   String phonenumber;
+  bool paid;
+  int count;
 
   ProfileModel({
     required this.phonenumber,
@@ -13,15 +15,19 @@ class ProfileModel {
     required this.lastname,
     required this.blocked,
     required this.firstname,
+    required this.paid,
+    required this.count,
   });
 
   ///Converting OBject into Json Object
   Map<String, dynamic> toJson() => {
         'uid': uid,
+        'paid': paid,
         'blocked': blocked,
         'lastname': lastname,
         'firstname': firstname,
-        'phonenumber': phonenumber
+        'phonenumber': phonenumber,
+        'count': count
       };
 
   ///
@@ -30,7 +36,9 @@ class ProfileModel {
 
     return ProfileModel(
         phonenumber: snapshot['phonenumber'],
+        paid: snapshot['paid'],
         uid: snapshot['uid'],
+        count: snapshot['count'],
         blocked: snapshot['blocked'],
         lastname: snapshot['lastname'],
         firstname: snapshot['firstname']);

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,6 +31,9 @@ class _ExpertsState extends State<Experts> {
 
   @override
   Widget build(BuildContext context) {
+    final DocumentReference userRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -36,29 +41,10 @@ class _ExpertsState extends State<Experts> {
             style: GoogleFonts.roboto(fontWeight: FontWeight.bold)),
         automaticallyImplyLeading: true,
         backgroundColor: Colors.black,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (builder) => SubsriptionAsk()));
-              },
-              icon: Icon(
-                Icons.panorama_horizontal,
-                color: Colors.white,
-              ))
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: Text(
-                "Free Message This Week is $count To get Complete Features Please Purchase the Subscription",
-                style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -69,17 +55,23 @@ class _ExpertsState extends State<Experts> {
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: ListTile(
-                  onTap: () {
-                    setState(() {
-                      if (count > 0) {
-                        count--;
-                      } else
-                        count = 0;
-                    });
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => TarrotWebPage()));
+                  onTap: () async {
+                    final DocumentSnapshot userSnapshot = await userRef.get();
+                    Map<String, dynamic> data =
+                        userSnapshot.data() as Map<String, dynamic>;
+                    final isBlocked = data['paid'];
+                    if (isBlocked == true) {
+                      // User is blocked
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => TarrotWebPage()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => SubsriptionAsk()));
+                    }
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -121,11 +113,23 @@ class _ExpertsState extends State<Experts> {
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => ChineseWebPage()));
+                  onTap: () async {
+                    final DocumentSnapshot userSnapshot = await userRef.get();
+                    Map<String, dynamic> data =
+                        userSnapshot.data() as Map<String, dynamic>;
+                    final isBlocked = data['paid'];
+                    if (isBlocked == true) {
+                      // User is blocked
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => ChineseWebPage()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => SubsriptionAsk()));
+                    }
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -167,11 +171,23 @@ class _ExpertsState extends State<Experts> {
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => OrcaleWebPage()));
+                  onTap: () async {
+                    final DocumentSnapshot userSnapshot = await userRef.get();
+                    Map<String, dynamic> data =
+                        userSnapshot.data() as Map<String, dynamic>;
+                    final isBlocked = data['paid'];
+                    if (isBlocked == true) {
+                      // User is blocked
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => OrcaleWebPage()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => SubsriptionAsk()));
+                    }
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -213,11 +229,23 @@ class _ExpertsState extends State<Experts> {
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => CrystalWebPage()));
+                  onTap: () async {
+                    final DocumentSnapshot userSnapshot = await userRef.get();
+                    Map<String, dynamic> data =
+                        userSnapshot.data() as Map<String, dynamic>;
+                    final isBlocked = data['paid'];
+                    if (isBlocked == true) {
+                      // User is blocked
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => CrystalWebPage()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => SubsriptionAsk()));
+                    }
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -259,11 +287,23 @@ class _ExpertsState extends State<Experts> {
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => DreamWebPage()));
+                  onTap: () async {
+                    final DocumentSnapshot userSnapshot = await userRef.get();
+                    Map<String, dynamic> data =
+                        userSnapshot.data() as Map<String, dynamic>;
+                    final isBlocked = data['paid'];
+                    if (isBlocked == true) {
+                      // User is blocked
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => DreamWebPage()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => SubsriptionAsk()));
+                    }
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -305,11 +345,23 @@ class _ExpertsState extends State<Experts> {
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => ChingReadingWebPage()));
+                  onTap: () async {
+                    final DocumentSnapshot userSnapshot = await userRef.get();
+                    Map<String, dynamic> data =
+                        userSnapshot.data() as Map<String, dynamic>;
+                    final isBlocked = data['paid'];
+                    if (isBlocked == true) {
+                      // User is blocked
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => ChingReadingWebPage()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => SubsriptionAsk()));
+                    }
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -351,11 +403,23 @@ class _ExpertsState extends State<Experts> {
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => RunesWebPage()));
+                  onTap: () async {
+                    final DocumentSnapshot userSnapshot = await userRef.get();
+                    Map<String, dynamic> data =
+                        userSnapshot.data() as Map<String, dynamic>;
+                    final isBlocked = data['paid'];
+                    if (isBlocked == true) {
+                      // User is blocked
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => RunesWebPage()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => SubsriptionAsk()));
+                    }
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -397,11 +461,23 @@ class _ExpertsState extends State<Experts> {
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => MagicWebPage()));
+                  onTap: () async {
+                    final DocumentSnapshot userSnapshot = await userRef.get();
+                    Map<String, dynamic> data =
+                        userSnapshot.data() as Map<String, dynamic>;
+                    final isBlocked = data['paid'];
+                    if (isBlocked == true) {
+                      // User is blocked
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => MagicWebPage()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => SubsriptionAsk()));
+                    }
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -20,7 +20,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final DocumentReference userRef = FirebaseFirestore.instance
-      .collection('subscriptions')
+      .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid);
   final List<String> imgList = [
     'assets/blackball.png',
@@ -92,8 +92,26 @@ class _MainScreenState extends State<MainScreen> {
               ),
             )),
             ElevatedButton(
-              onPressed: () {
-                check();
+              onPressed: () async {
+                final documentReference = FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser!.uid);
+                final snapshot = await documentReference.get();
+                Map<String, dynamic> data =
+                    snapshot.data() as Map<String, dynamic>;
+                final currentValue = data['count'];
+                if (currentValue == 0) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => SubsriptionAsk()));
+                } else {}
+                final updatedValue = currentValue - 1;
+                await documentReference
+                    .update({'count': updatedValue}).then((value) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (builder) => Experts()));
+                });
               },
               child: Text(
                 "Get Readings Now",
@@ -101,6 +119,47 @@ class _MainScreenState extends State<MainScreen> {
               ),
               style: ElevatedButton.styleFrom(
                   shape: StadiumBorder(), fixedSize: Size(200, 60)),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              "Messages allow in a week",
+              style: TextStyle(color: Colors.white),
+            ),
+            Container(
+              margin: EdgeInsets.only(right: 10),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder(
+                    future: FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .get(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        Map<String, dynamic> data =
+                            snapshot.data!.data() as Map<String, dynamic>;
+                        if (data['count'] < 0 && data['paid'] == false) {
+                          return Text(
+                            "Please Purchase Your Subscription",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          );
+                        } else
+                          Text(
+                            "${data['count']}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          );
+                      }
+
+                      return Text("Loading");
+                    }),
+              ),
             ),
             SizedBox(
               height: 30,

@@ -16,7 +16,7 @@ class CheckSubscription extends StatefulWidget {
 
 class _CheckSubscriptionState extends State<CheckSubscription> {
   final DocumentReference userRef = FirebaseFirestore.instance
-      .collection('subscriptions')
+      .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid);
   @override
   void initState() {

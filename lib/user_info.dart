@@ -124,6 +124,8 @@ class _ProfileInfoState extends State<ProfileInfo> {
         phoneNumber: phone.text,
         firstName: firstname.text,
         lastName: lastname.text,
+        count: 3,
+        paid: false,
         uid: FirebaseAuth.instance.currentUser!.uid,
       );
 

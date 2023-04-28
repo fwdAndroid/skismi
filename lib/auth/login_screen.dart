@@ -45,8 +45,12 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             margin: EdgeInsets.only(left: 20, right: 20),
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(fixedSize: Size(340, 50)),
-              child: Text("Sign In with Email"),
+              style: ElevatedButton.styleFrom(
+                  fixedSize: Size(340, 50), backgroundColor: Colors.black),
+              child: Text(
+                "Sign In with Apple",
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: () async {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (builder) => EmailAuth()));

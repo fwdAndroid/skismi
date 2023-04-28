@@ -44,8 +44,10 @@ class DatabaseMethods {
     try {
       //Add User to the database with modal
       ProfileModel userModel = ProfileModel(
+        paid: false,
         uid: FirebaseAuth.instance.currentUser!.uid,
         blocked: false,
+        count: 3,
         firstname: '',
         lastname: '',
         phonenumber: '',
@@ -65,13 +67,14 @@ class DatabaseMethods {
   }
 
   //Profile Details
-  Future<String> profileDetail({
-    required String uid,
-    required String firstName,
-    required String lastName,
-    required bool blocked,
-    required String phoneNumber,
-  }) async {
+  Future<String> profileDetail(
+      {required String uid,
+      required String firstName,
+      required String lastName,
+      required bool blocked,
+      required String phoneNumber,
+      required int count,
+      required bool paid}) async {
     String res = 'Some error occured';
 
     try {
@@ -82,6 +85,8 @@ class DatabaseMethods {
         lastname: lastName,
         phonenumber: phoneNumber,
         blocked: blocked,
+        count: count,
+        paid: paid,
         uid: FirebaseAuth.instance.currentUser!.uid,
       );
       await firebaseFirestore
