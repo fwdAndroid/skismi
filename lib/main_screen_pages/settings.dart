@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:skismi/auth/login_screen.dart';
 import 'package:mailto/mailto.dart';
+import 'package:skismi/main_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppSettings extends StatefulWidget {
@@ -84,6 +86,20 @@ class _AppSettingsState extends State<AppSettings> {
             },
             title: Text(
               "Share",
+              style: TextStyle(color: Colors.white),
+            ),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+            ),
+          ),
+          Divider(
+            color: Colors.white,
+          ),
+          ListTile(
+            onTap: offsub,
+            title: Text(
+              "Turn off Subscription",
               style: TextStyle(color: Colors.white),
             ),
             trailing: Icon(
@@ -196,5 +212,47 @@ class _AppSettingsState extends State<AppSettings> {
     // Use either Dart's string interpolation
     // or the toString() method.
     await launch('$mailtoLink');
+  }
+
+  void offsub() {
+    showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Alert'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: const <Widget>[
+                  Text('Do you want To Turn off Your Subscription'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Yes'),
+                onPressed: () async {
+                  await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .update(
+                    {"subscriptionTaken": false},
+                  ).then((value) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (builder) => MainScreen()));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Subscription Off")));
+                  });
+                },
+              ),
+              TextButton(
+                child: const Text('No'),
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
   }
 }
