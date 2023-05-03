@@ -7,6 +7,8 @@ import 'package:skismi/main_screen_pages/experts.dart';
 import 'package:skismi/main_screen_pages/settings.dart';
 import 'package:skismi/messages/chat_screen.dart';
 import 'package:skismi/payment/subcription_ask.dart';
+import 'package:skismi/separateTrailPage.dart';
+import 'package:skismi/status/checkexpertsubscription.dart';
 import 'package:skismi/webpages/webpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -62,12 +64,12 @@ class _MainScreenState extends State<MainScreen> {
                           height: MediaQuery.of(context).size.height,
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (builder) => ChatScreen(
-                                          name: Choice.content,
-                                          uuid: Choice.content)));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (builder) => ChatScreen(
+                              //             name: Choice.content,
+                              //             uuid: Choice.content)));
                             },
                             child: Column(
                               children: [
@@ -99,66 +101,84 @@ class _MainScreenState extends State<MainScreen> {
                 final snapshot = await documentReference.get();
                 Map<String, dynamic> data =
                     snapshot.data() as Map<String, dynamic>;
-                final currentValue = data['count'];
-                if (currentValue == 0) {
+                final count = data['count'];
+                final pay = data['paid'];
+                final taken = data['subscriptionTaken'];
+
+                if (count >= 0 && pay == false && taken == false) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => MyWidget(
+                                title: "Trial",
+                                url:
+                                    "https://skismi.com/tarot-card-results-trial/",
+                              )));
+                } else {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (builder) => SubsriptionAsk()));
-                } else {}
-                final updatedValue = currentValue - 1;
-                await documentReference
-                    .update({'count': updatedValue}).then((value) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (builder) => Experts()));
-                });
+                }
               },
               child: Text(
-                "Get Readings Now",
+                "Free Readings",
                 style: TextStyle(color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
                   shape: StadiumBorder(), fixedSize: Size(200, 60)),
             ),
             SizedBox(
-              height: 5,
+              height: 40,
             ),
             Text(
-              "Messages allow in a week",
+              "Free Readings Left",
               style: TextStyle(color: Colors.white),
             ),
-            Container(
-              margin: EdgeInsets.only(right: 10),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FutureBuilder(
-                    future: FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .get(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<DocumentSnapshot> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        Map<String, dynamic> data =
-                            snapshot.data!.data() as Map<String, dynamic>;
-                        if (data['count'] < 0 && data['paid'] == false) {
-                          return Text(
-                            "Please Purchase Your Subscription",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          );
-                        } else
-                          Text(
-                            "${data['count']}",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          );
-                      }
+            Center(
+              child: Container(
+                height: 40,
+                margin: EdgeInsets.only(right: 10),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection("users")
+                          .where(
+                            "uid",
+                            isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+                          )
+                          .where("subscriptionTaken", isEqualTo: false)
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return Text('Something went wrong');
+                        }
 
-                      return Text("Loading");
-                    }),
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Text("Loading");
+                        }
+
+                        return ListView(
+                            children: snapshot.data!.docs
+                                .map((DocumentSnapshot document) {
+                          Map<String, dynamic> data =
+                              document.data()! as Map<String, dynamic>;
+
+                          return Center(
+                            child: Text(
+                              data['count'] <= 0
+                                  ? "0"
+                                  : data['count'].toString(),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          );
+                        }).toList());
+                      }),
+                ),
               ),
             ),
             SizedBox(
@@ -172,11 +192,13 @@ class _MainScreenState extends State<MainScreen> {
                   //Rooms
                   InkWell(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (builder) => Experts()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => CheckExpertSubscription()));
                     },
                     child: Image.asset(
-                      "assets/person.png",
+                      "assets/black.png",
                       height: 60,
                       width: 60,
                     ),
@@ -185,27 +207,6 @@ class _MainScreenState extends State<MainScreen> {
                     width: 30,
                   ),
                   //Trail
-
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => MyWidget(
-                                    url:
-                                        "https://skismi.com/tarot-card-results-trial/",
-                                    title: "Trial Page",
-                                  )));
-                    },
-                    child: Image.asset(
-                      "assets/tt.png",
-                      height: 60,
-                      width: 60,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
 
                   //Privacy
                   InkWell(
@@ -249,27 +250,6 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
-  }
-
-  void check() async {
-    final DocumentSnapshot userSnapshot = await userRef.get();
-    Map<String, dynamic> data = userSnapshot.data() as Map<String, dynamic>;
-
-    ;
-    final isBlocked = data['paid'];
-    if (isBlocked == true) {
-      // User is blocked
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (builder) => ChatScreen(
-                    name: "",
-                    uuid: "",
-                  )));
-    } else {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (builder) => SubsriptionAsk()));
-    }
   }
 }
 

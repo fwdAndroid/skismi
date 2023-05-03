@@ -82,6 +82,7 @@ class DatabaseMethods {
       required bool blocked,
       required String subscriptionType,
       required String promoCode,
+      required String price,
       required bool subscriptionTaken,
       required bool paid}) async {
     String res = 'Some error occured';
@@ -95,6 +96,7 @@ class DatabaseMethods {
         promoCode: promoCode,
         email: email,
         phonenumber: phoneNumber,
+        price: price,
         count: count,
         blocked: blocked,
         subscriptionType: subscriptionType,

@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:skismi/payment/subcription_ask.dart';
+import 'package:skismi/main_screen.dart';
 import 'package:skismi/webpages/chinesewebpage.dart';
 import 'package:skismi/webpages/chingreadingwebpage.dart';
 import 'package:skismi/webpages/crystalwebpage.dart';
@@ -12,6 +10,7 @@ import 'package:skismi/webpages/magicwebpage.dart';
 import 'package:skismi/webpages/oraclewebpage.dart';
 import 'package:skismi/webpages/runnswebpage.dart';
 import 'package:skismi/webpages/tarrotwebpage.dart';
+import 'package:skismi/webpages/webpage.dart';
 
 class Experts extends StatefulWidget {
   const Experts({super.key});
@@ -31,15 +30,21 @@ class _ExpertsState extends State<Experts> {
 
   @override
   Widget build(BuildContext context) {
-    final DocumentReference userRef = FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (builder) => MainScreen()));
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
         title: Text("Skismi",
             style: GoogleFonts.roboto(fontWeight: FontWeight.bold)),
-        automaticallyImplyLeading: true,
         backgroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
@@ -56,22 +61,10 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () async {
-                    final DocumentSnapshot userSnapshot = await userRef.get();
-                    Map<String, dynamic> data =
-                        userSnapshot.data() as Map<String, dynamic>;
-                    final isBlocked = data['paid'];
-                    if (isBlocked == true) {
-                      // User is blocked
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => TarrotWebPage()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => SubsriptionAsk()));
-                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => TarrotWebPage()));
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -83,7 +76,7 @@ class _ExpertsState extends State<Experts> {
                     ],
                   ),
                   title: Text(
-                    "Tarot Card Reading",
+                    "Tarot Card Readings",
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   subtitle: Column(
@@ -114,22 +107,59 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () async {
-                    final DocumentSnapshot userSnapshot = await userRef.get();
-                    Map<String, dynamic> data =
-                        userSnapshot.data() as Map<String, dynamic>;
-                    final isBlocked = data['paid'];
-                    if (isBlocked == true) {
-                      // User is blocked
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => ChineseWebPage()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => SubsriptionAsk()));
-                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => MyWidget(
+                                  title: "Horoscope Readings",
+                                  url: "https://skismi.com/horoscope-results/",
+                                )));
+                  },
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/h.png",
+                        height: 54,
+                      ),
+                    ],
+                  ),
+                  title: Text(
+                    "Horoscope Readings",
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                  subtitle: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Horoscope Readings is a form of divination in which our AI bot will draw cards from the 78 card tarot deck to gain insight and illumination about your situation",
+                        style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: 360,
+                height: 120,
+                decoration: BoxDecoration(
+                  color: Color(0xff7A8194),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: ListTile(
+                  onTap: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => ChineseWebPage()));
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -172,22 +202,10 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () async {
-                    final DocumentSnapshot userSnapshot = await userRef.get();
-                    Map<String, dynamic> data =
-                        userSnapshot.data() as Map<String, dynamic>;
-                    final isBlocked = data['paid'];
-                    if (isBlocked == true) {
-                      // User is blocked
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => OrcaleWebPage()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => SubsriptionAsk()));
-                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => OrcaleWebPage()));
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -208,7 +226,7 @@ class _ExpertsState extends State<Experts> {
                         height: 10,
                       ),
                       Text(
-                        "Oracle: Consulting an Oracle deck is one of the best ways to do an Intuitive reading.",
+                        "Oracle: Consulting an Oracle deck is one of the best ways to do an Intuitive Readings.",
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ],
@@ -230,22 +248,10 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () async {
-                    final DocumentSnapshot userSnapshot = await userRef.get();
-                    Map<String, dynamic> data =
-                        userSnapshot.data() as Map<String, dynamic>;
-                    final isBlocked = data['paid'];
-                    if (isBlocked == true) {
-                      // User is blocked
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => CrystalWebPage()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => SubsriptionAsk()));
-                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => CrystalWebPage()));
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -257,7 +263,7 @@ class _ExpertsState extends State<Experts> {
                     ],
                   ),
                   title: Text(
-                    "Crystal Ball Reading",
+                    "Crystal Ball Readings",
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   subtitle: Column(
@@ -288,22 +294,10 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () async {
-                    final DocumentSnapshot userSnapshot = await userRef.get();
-                    Map<String, dynamic> data =
-                        userSnapshot.data() as Map<String, dynamic>;
-                    final isBlocked = data['paid'];
-                    if (isBlocked == true) {
-                      // User is blocked
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => DreamWebPage()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => SubsriptionAsk()));
-                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => DreamWebPage()));
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -346,22 +340,10 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () async {
-                    final DocumentSnapshot userSnapshot = await userRef.get();
-                    Map<String, dynamic> data =
-                        userSnapshot.data() as Map<String, dynamic>;
-                    final isBlocked = data['paid'];
-                    if (isBlocked == true) {
-                      // User is blocked
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => ChingReadingWebPage()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => SubsriptionAsk()));
-                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => ChingReadingWebPage()));
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -404,22 +386,10 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () async {
-                    final DocumentSnapshot userSnapshot = await userRef.get();
-                    Map<String, dynamic> data =
-                        userSnapshot.data() as Map<String, dynamic>;
-                    final isBlocked = data['paid'];
-                    if (isBlocked == true) {
-                      // User is blocked
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => RunesWebPage()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => SubsriptionAsk()));
-                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => RunesWebPage()));
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -431,7 +401,7 @@ class _ExpertsState extends State<Experts> {
                     ],
                   ),
                   title: Text(
-                    "Runes readings",
+                    "Runes ",
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   subtitle: Column(
@@ -440,7 +410,7 @@ class _ExpertsState extends State<Experts> {
                         height: 10,
                       ),
                       Text(
-                        "Runes readings: Our AI-generated runes readings app unlocks the mysteries of the ancient world, providing personalized insights into your future through the interpretation of runic symbols.",
+                        "Runes Readings: Our AI-generated runes Readings app unlocks the mysteries of the ancient world, providing personalized insights into your future through the interpretation of runic symbols.",
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ],
@@ -462,22 +432,10 @@ class _ExpertsState extends State<Experts> {
                 ),
                 child: ListTile(
                   onTap: () async {
-                    final DocumentSnapshot userSnapshot = await userRef.get();
-                    Map<String, dynamic> data =
-                        userSnapshot.data() as Map<String, dynamic>;
-                    final isBlocked = data['paid'];
-                    if (isBlocked == true) {
-                      // User is blocked
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => MagicWebPage()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => SubsriptionAsk()));
-                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => MagicWebPage()));
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

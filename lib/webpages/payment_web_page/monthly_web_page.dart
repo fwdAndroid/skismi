@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MyWidget extends StatefulWidget {
+class MonthlyWebPage extends StatefulWidget {
   String url;
   String title;
 
-  MyWidget({required this.title, required this.url});
+  MonthlyWebPage({required this.title, required this.url});
   @override
-  _MyWidgetState createState() => new _MyWidgetState();
+  _MonthlyWebPageState createState() => new _MonthlyWebPageState();
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class _MonthlyWebPageState extends State<MonthlyWebPage> {
   final GlobalKey webViewKey = GlobalKey();
 
   InAppWebViewController? webViewController;

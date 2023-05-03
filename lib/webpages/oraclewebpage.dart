@@ -34,7 +34,7 @@ class _OrcaleWebPageState extends State<OrcaleWebPage> {
                             title: "Oracle Readings",
                           )));
             },
-            child: Text("Open Oracle Consultations"),
+            child: Text("Open Oracle Readings"),
           ),
           SizedBox(
             height: 10,

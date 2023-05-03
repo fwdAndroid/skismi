@@ -123,6 +123,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
         subscriptionTaken: false,
         subscriptionType: "zero",
         promoCode: "",
+        price: "0",
         phoneNumber: phone.text,
         firstName: firstname.text,
         lastName: lastname.text,

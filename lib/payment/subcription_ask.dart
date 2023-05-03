@@ -8,8 +8,11 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skismi/main_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:skismi/main_screen_pages/experts.dart';
 import 'package:skismi/messages/chat_screen.dart';
 import 'package:skismi/model/profile_model.dart';
+import 'package:skismi/webpages/payment_web_page/monthly_web_page.dart';
+import 'package:skismi/webpages/payment_web_page/yearly_web_page.dart';
 
 class SubsriptionAsk extends StatefulWidget {
   SubsriptionAsk({super.key});
@@ -61,50 +64,19 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
             SizedBox(
               height: 30,
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: 10, left: 20, right: 20),
-              child: TextFormField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    hintText: "Enter Promo Code",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.blue, width: 1.0),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fillColor: Colors.white,
-                    filled: true),
-              ),
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InkWell(
-                  onTap: () async {
-                    await makePayment("799").then((value) async {
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .update({
-                        "promoCodes": controller.text,
-                        "uid": FirebaseAuth.instance.currentUser!.uid,
-                        "blocked": false,
-                        "paid": true,
-                        "count": 3,
-                        "subscriptionType": "Weekly",
-                        "price": "7.99",
-                        "subscriptionTaken": true
-                      });
-                    }).then((value) async {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) =>
-                                  ChatScreen(name: "", uuid: "")));
-                    });
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => MonthlyWebPage(
+                                  title: "Weekly",
+                                  url:
+                                      "Weekly: https://checkout.stripe.com/c/pay/cs_live_b1u5Ov4moSYZT6GCvr21rXzCJGPSKeUpmTpNXUlHdXiaHjeUXcbP7EkNLV#fidkdWxOYHwnPyd1blppbHNgWmhrQEhXXWdpMTdETnVgckpJQHBHX0F%2FQScpJ3VpbGtuQH11anZgYUxhJz8nM2pAM3dNNnxgY2RwNlxmZkhIJyknd2BjYHd3YHdKd2xibGsnPydtcXF1Pyoqdm5sdmhsK2ZqaConeCUl ",
+                                )));
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -133,27 +105,28 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                 ),
                 InkWell(
                   onTap: () async {
-                    await makePayment("1599").then((value) async {
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .update({
-                        "promoCodes": controller.text,
-                        "uid": FirebaseAuth.instance.currentUser!.uid,
-                        "blocked": false,
-                        "paid": true,
-                        "count": 3,
-                        "subscriptionType": "Monthly",
-                        "price": "15.99",
-                        "subscriptionTaken": true
-                      });
-                    }).then((value) async {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) =>
-                                  ChatScreen(name: "", uuid: "")));
-                    });
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .update({
+                      "promoCodes": controller.text,
+                      "uid": FirebaseAuth.instance.currentUser!.uid,
+                      "blocked": false,
+                      "paid": true,
+                      "count": 3,
+                      "subscriptionType": "Monthly",
+                      "price": "15.99",
+                      "subscriptionTaken": true
+                    }).then((value) => {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (builder) => MonthlyWebPage(
+                                            title: "Monthly",
+                                            url:
+                                                " https://checkout.stripe.com/c/pay/cs_live_b1h3HdLi5vUcJmTcHJM0ExMMo0CCkhlt6qgr8pk4s30kXD2l4wDI7HMfk1#fidkdWxOYHwnPyd1blppbHNgWmhrQEhXXWdpMTdETnVgckpJQHBHX0F%2FQScpJ3VpbGtuQH11anZgYUxhJz8nM2pAMW9%2FPFJGM0FcNFQxNTU0Jyknd2BjYHd3YHdKd2xibGsnPydtcXF1Pyoqdm5sdmhsK2ZqaConeCUl ",
+                                          )))
+                            });
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -184,27 +157,28 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
             ),
             InkWell(
               onTap: () async {
-                await makePayment("6999").then((value) async {
-                  await FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
-                      .update({
-                    "promoCodes": controller.text,
-                    "uid": FirebaseAuth.instance.currentUser!.uid,
-                    "blocked": false,
-                    "paid": true,
-                    "count": 3,
-                    "subscriptionType": "Yearly",
-                    'price': "69.99",
-                    "subscriptionTaken": true
-                  });
-                }).then((value) async {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (builder) =>
-                              ChatScreen(name: "", uuid: "")));
-                });
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .update({
+                  "promoCodes": controller.text,
+                  "uid": FirebaseAuth.instance.currentUser!.uid,
+                  "blocked": false,
+                  "paid": true,
+                  "count": 3,
+                  "subscriptionType": "Yearly",
+                  'price': "69.99",
+                  "subscriptionTaken": true
+                }).then((value) => {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => YearlyWebPage(
+                                        title: "Yearly",
+                                        url:
+                                            "Annual: https://checkout.stripe.com/c/pay/cs_live_b15J9bBXB1QJpf5XeiLRcL991oOiXrqUtnOddG1PVt5O9ZmQ6qYEulY3Rx#fidkdWxOYHwnPyd1blppbHNgWmhrQEhXXWdpMTdETnVgckpJQHBHX0F%2FQScpJ3VpbGtuQH11anZgYUxhJz8nY19gMW9%2FZzVCN2tMZ3RANz1kJyknd2BjYHd3YHdKd2xibGsnPydtcXF1Pyoqdm5sdmhsK2ZqaConeCUl ",
+                                      )))
+                        });
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -235,69 +209,4 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
   }
 
   //Payment Function
-  Future<void> makePayment(String amount) async {
-    try {
-      paymentIntent = await createPaymentIntent(amount, 'USD');
-
-      var gpay = PaymentSheetGooglePay(
-          merchantCountryCode: "US", currencyCode: "USD", testEnv: true);
-
-      //STEP 2: Initialize Payment Sheet
-      await Stripe.instance
-          .initPaymentSheet(
-              paymentSheetParameters: SetupPaymentSheetParameters(
-                  paymentIntentClientSecret: paymentIntent![
-                      'client_secret'], //Gotten from payment intent
-                  style: ThemeMode.light,
-                  merchantDisplayName: 'Abhi',
-                  googlePay: gpay))
-          .then((value) {});
-
-      //STEP 3: Display Payment sheet
-      displayPaymentSheet();
-    } catch (err) {
-      print(err);
-    }
-  }
-
-  displayPaymentSheet() async {
-    try {
-      await Stripe.instance.presentPaymentSheet().then((value) async {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-          "Payment Successfully",
-          style: TextStyle(color: Colors.white),
-        )));
-      });
-    } catch (e) {
-      print('$e');
-    }
-  }
-
-  createPaymentIntent(String amount, String currency) async {
-    try {
-      Map<String, dynamic> body = {
-        'amount': amount,
-        'currency': currency,
-      };
-
-      var response = await http.post(
-        Uri.parse('https://api.stripe.com/v1/payment_intents'),
-        headers: {
-          'Authorization': 'Bearer sk_test_1AuH6JvVPa2YbtyuyulwaZ0F',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: body,
-      );
-      return json.decode(response.body);
-    } catch (err) {
-      throw Exception(err.toString());
-    }
-  }
-
-  calculateAmount(String amount) {
-    final a = (int.parse(amount)) * 100;
-    final b = a - int.parse(controller.text);
-    return b.toString();
-  }
 }

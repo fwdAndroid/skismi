@@ -24,7 +24,6 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   bool _isTyping = false;
-  int count = 3;
 
   late TextEditingController textEditingController;
   late ScrollController _listScrollController;
@@ -70,33 +69,6 @@ class _ChatScreenState extends State<ChatScreen> {
           widget.name,
           style: TextStyle(fontSize: 12),
         ),
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: 10),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection("messages")
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
-                      .get(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      Map<String, dynamic> data =
-                          snapshot.data!.data() as Map<String, dynamic>;
-                      return Text(
-                        "${data['count']}",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      );
-                    }
-
-                    return Text("Loading");
-                  }),
-            ),
-          )
-        ],
       ),
       body: SafeArea(
         child: Column(
@@ -215,11 +187,6 @@ class _ChatScreenState extends State<ChatScreen> {
       //   modelId: modelsProvider.getCurrentModel,
       // ));
       print("read");
-
-      setState(() {
-        count--;
-        sendmessage(msg, count);
-      });
     } catch (error) {
       log("error $error");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

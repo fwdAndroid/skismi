@@ -24,6 +24,14 @@ class _AppSettingsState extends State<AppSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "Settings",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
+      ),
       backgroundColor: Colors.black,
       body: ListView(
         children: [
@@ -81,7 +89,8 @@ class _AppSettingsState extends State<AppSettings> {
           ),
           ListTile(
             onTap: () {
-              Share.share('Check Out Skismi https://example.com',
+              Share.share(
+                  'Check out the Skismi app https://skismi.com/download',
                   subject: 'Look what I made!');
             },
             title: Text(
@@ -96,19 +105,43 @@ class _AppSettingsState extends State<AppSettings> {
           Divider(
             color: Colors.white,
           ),
-          ListTile(
-            onTap: offsub,
-            title: Text(
-              "Turn off Subscription",
-              style: TextStyle(color: Colors.white),
-            ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.white,
-            ),
-          ),
-          Divider(
-            color: Colors.white,
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .where("subscriptionTaken", isEqualTo: true)
+                .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return CircularProgressIndicator();
+              }
+
+              final documents = snapshot.data!.docs;
+              final valueExists = documents.isNotEmpty;
+
+              if (valueExists) {
+                return Column(
+                  children: [
+                    ListTile(
+                      onTap: offsub,
+                      title: Text(
+                        "Cancel Subscription",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.white,
+                    ),
+                  ],
+                );
+              } else {
+                return SizedBox.shrink();
+              }
+            },
           ),
           ListTile(
             onTap: () {
@@ -124,7 +157,7 @@ class _AppSettingsState extends State<AppSettings> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           const Text(
-                            'Are you sure you want to exist?',
+                            'Are you sure you want to exit?',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
@@ -236,7 +269,7 @@ class _AppSettingsState extends State<AppSettings> {
                       .collection('users')
                       .doc(FirebaseAuth.instance.currentUser!.uid)
                       .update(
-                    {"subscriptionTaken": false},
+                    {"subscriptionTaken": false, "paid": false},
                   ).then((value) {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (builder) => MainScreen()));
