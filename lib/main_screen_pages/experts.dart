@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skismi/main_screen.dart';
 import 'package:skismi/webpages/chinesewebpage.dart';
+import 'package:skismi/webpages/chineshorswebpage.dart';
 import 'package:skismi/webpages/chingreadingwebpage.dart';
 import 'package:skismi/webpages/crystalwebpage.dart';
 import 'package:skismi/webpages/dreamwebpage.dart';
 import 'package:skismi/webpages/magicwebpage.dart';
+import 'package:skismi/webpages/nomrology_web_page.dart';
 import 'package:skismi/webpages/oraclewebpage.dart';
 import 'package:skismi/webpages/runnswebpage.dart';
 import 'package:skismi/webpages/tarrotwebpage.dart';
@@ -64,19 +66,26 @@ class _ExpertsState extends State<Experts> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (builder) => TarrotWebPage()));
+                            builder: (builder) => ChinesHoroWebPage()));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (builder) => MyWidget(
+                    //               title: "Horoscope Readings",
+                    //               url: "https://skismi.com/horoscope-results/",
+                    //             )));
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "assets/ww.png",
+                        "assets/h.png",
                         height: 54,
                       ),
                     ],
                   ),
                   title: Text(
-                    "Tarot Card Readings",
+                    "Horoscope Readings",
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   subtitle: Column(
@@ -85,7 +94,7 @@ class _ExpertsState extends State<Experts> {
                         height: 10,
                       ),
                       Text(
-                        "For Tarot: Tarot is a form of divination in which our AI bot will draw cards from the 78 card tarot deck to gain insight and illumination about your situation",
+                        "Your Horoscope readings can offer you insights into love, career, health, and finances based on your unique astrological profile, providing guidance for personal growth and self-discovery.",
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ],
@@ -110,22 +119,19 @@ class _ExpertsState extends State<Experts> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (builder) => MyWidget(
-                                  title: "Horoscope Readings",
-                                  url: "https://skismi.com/horoscope-results/",
-                                )));
+                            builder: (builder) => TarrotWebPage()));
                   },
                   leading: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "assets/h.png",
+                        "assets/ww.png",
                         height: 54,
                       ),
                     ],
                   ),
                   title: Text(
-                    "Horoscope Readings",
+                    "Tarot Card Readings",
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   subtitle: Column(
@@ -134,7 +140,7 @@ class _ExpertsState extends State<Experts> {
                         height: 10,
                       ),
                       Text(
-                        "Horoscope Readings is a form of divination in which our AI bot will draw cards from the 78 card tarot deck to gain insight and illumination about your situation",
+                        "For Tarot: Tarot is a form of divination in which our AI bot will draw cards from the 78 card tarot deck to gain insight and illumination about your situation",
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ],
@@ -226,7 +232,51 @@ class _ExpertsState extends State<Experts> {
                         height: 10,
                       ),
                       Text(
-                        "Oracle: Consulting an Oracle deck is one of the best ways to do an Intuitive Readings.",
+                        "Consulting the Oracle is a great way to get a sense of your future.",
+                        style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: 360,
+                height: 120,
+                decoration: BoxDecoration(
+                  color: Color(0xff7A8194),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: ListTile(
+                  onTap: () async {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (builder) => NormWebPage()));
+                  },
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/asd.png",
+                        height: 54,
+                      ),
+                    ],
+                  ),
+                  title: Text(
+                    "Numerology Readings",
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                  subtitle: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Discover your unique numerological profile with our in-depth report, revealing insights about your life path, destiny, and personality based on your birth date and name. Uncover your hidden potential and life patterns.",
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ],

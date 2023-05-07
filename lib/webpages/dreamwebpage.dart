@@ -37,7 +37,7 @@ class _DreamWebPageState extends State<DreamWebPage> {
                             title: "AI Dream Analysis",
                           )));
             },
-            child: Text("Open Dream Interpretations"),
+            child: Text("Get Your Dream Analyzed "),
           ),
           SizedBox(
             height: 10,
@@ -64,7 +64,7 @@ class _DreamWebPageState extends State<DreamWebPage> {
                             )));
               });
             },
-            child: Text("Chat with AI Dream Analysis Expert"),
+            child: Text("Chat With a Dream Analysis Expert"),
           )
         ],
       ),

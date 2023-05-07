@@ -37,7 +37,7 @@ class _ChingReadingWebPageState extends State<ChingReadingWebPage> {
                             title: " I Ching Reading",
                           )));
             },
-            child: Text("Open I Ching Reading"),
+            child: Text("Get Your I Ching Reading "),
           ),
           SizedBox(
             height: 10,
@@ -64,7 +64,7 @@ class _ChingReadingWebPageState extends State<ChingReadingWebPage> {
                             )));
               });
             },
-            child: Text("Chat with Ching Reading Expert"),
+            child: Text("Chat with an I Ching Expert"),
           )
         ],
       ),

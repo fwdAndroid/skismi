@@ -134,7 +134,7 @@ class _MyWidgetState extends State<MyWidget> {
               ElevatedButton(
                 child: Icon(Icons.refresh),
                 onPressed: () {
-                  // webViewController?.reload();
+                  webViewController?.reload();
                 },
               ),
               ElevatedButton(
@@ -149,7 +149,7 @@ class _MyWidgetState extends State<MyWidget> {
   }
 
   void land() {
-    Timer(Duration(seconds: 5), () async {
+    Timer(Duration(seconds: 59), () async {
       final documentReference = FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid);

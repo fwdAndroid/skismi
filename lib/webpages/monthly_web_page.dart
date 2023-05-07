@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:skismi/main_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MonthlyWebPage extends StatefulWidget {
@@ -25,12 +26,13 @@ class _MonthlyWebPageState extends State<MonthlyWebPage> {
   double progress = 0;
   final urlController = TextEditingController();
   List<String> loadedResources = [];
+  bool _paymentMade = false;
 
   @override
   void initState() {
     super.initState();
 
-    land();
+    // land();
     pullToRefreshController = kIsWeb
         ? null
         : PullToRefreshController(
@@ -101,7 +103,12 @@ class _MonthlyWebPageState extends State<MonthlyWebPage> {
                   },
                   onLoadStop: (controller, url) async {
                     pullToRefreshController?.endRefreshing();
-                    setState(() async {});
+                    if (url.toString() ==
+                        "https://checkout.stripe.com/c/pay/cs_live_b1h3HdLi5vUcJmTcHJM0ExMMo0CCkhlt6qgr8pk4s30kXD2l4wDI7HMfk1#fidkdWxOYHwnPyd1blppbHNgWmhrQEhXXWdpMTdETnVgckpJQHBHX0F%2FQScpJ3VpbGtuQH11anZgYUxhJz8nM2pAMW9%2FPFJGM0FcNFQxNTU0Jyknd2BjYHd3YHdKd2xibGsnPydtcXF1Pyoqdm5sdmhsK2ZqaConeCUl ") {
+                      setState(() {
+                        _paymentMade = true;
+                      });
+                    }
                   },
                   onProgressChanged: (controller, progress) {
                     if (progress == 100) {
@@ -131,12 +138,55 @@ class _MonthlyWebPageState extends State<MonthlyWebPage> {
           ButtonBar(
             alignment: MainAxisAlignment.center,
             children: <Widget>[
-              ElevatedButton(
-                child: Icon(Icons.refresh),
-                onPressed: () {
-                  // webViewController?.reload();
-                },
-              ),
+              _paymentMade
+                  ? ElevatedButton(
+                      child: Text("Confirm Payment"),
+                      onPressed: () async {
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: false, // user must tap button!
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Center(
+                                child: const Text(
+                                  'Payment is confirm You can Delete the Subscription from Setting',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: <Widget>[],
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: Text("Confirm"),
+                                  onPressed: () async {
+                                    await FirebaseFirestore.instance
+                                        .collection("users")
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser!.uid)
+                                        .update({
+                                      "paid": true,
+                                      "price": "14.99",
+                                      "subscriptionType": "Monthly",
+                                      "subscriptionTaken": true
+                                    }).then((value) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (builder) =>
+                                                  MainScreen()));
+                                    });
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : SizedBox(),
               ElevatedButton(
                 child: Text("Back"),
                 onPressed: () async {
@@ -148,16 +198,16 @@ class _MonthlyWebPageState extends State<MonthlyWebPage> {
         ])));
   }
 
-  void land() {
-    Timer(Duration(seconds: 5), () async {
-      final documentReference = FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid);
-      final snapshot = await documentReference.get();
-      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      final currentValue = data['count'];
-      var lastValue = currentValue - 1;
-      documentReference.update({"count": lastValue});
-    });
-  }
+  // void land() {
+  //   Timer(Duration(seconds: 5), () async {
+  //     final documentReference = FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(FirebaseAuth.instance.currentUser!.uid);
+  //     final snapshot = await documentReference.get();
+  //     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+  //     final currentValue = data['count'];
+  //     var lastValue = currentValue - 1;
+  //     documentReference.update({"count": lastValue});
+  //   });
+  // }
 }

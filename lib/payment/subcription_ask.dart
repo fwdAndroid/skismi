@@ -1,18 +1,11 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:skismi/ads/ads_service.dart';
 import 'package:skismi/main_screen.dart';
-import 'package:intl/intl.dart';
-import 'package:skismi/main_screen_pages/experts.dart';
-import 'package:skismi/messages/chat_screen.dart';
-import 'package:skismi/model/profile_model.dart';
-import 'package:skismi/webpages/payment_web_page/monthly_web_page.dart';
-import 'package:skismi/webpages/payment_web_page/yearly_web_page.dart';
+import 'package:skismi/webpages/monthly_web_page.dart';
+import 'package:skismi/webpages/weekly_web_page.dart';
+import 'package:skismi/webpages/yearly_web_page.dart';
 
 class SubsriptionAsk extends StatefulWidget {
   SubsriptionAsk({super.key});
@@ -25,6 +18,15 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
   TextEditingController controller = TextEditingController();
   Map<String, dynamic>? paymentIntent;
   int selectedIndex = 0;
+  InterstitialAd? _interstitialAd;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // _createInterstitialAd();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +49,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                 alignment: Alignment.topRight,
                 child: IconButton(
                   onPressed: () {
+                    // _showInterstitialAd();
                     Navigator.push(context,
                         MaterialPageRoute(builder: (builder) => MainScreen()));
                   },
@@ -69,14 +72,44 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => MonthlyWebPage(
-                                  title: "Weekly",
-                                  url:
-                                      "Weekly: https://checkout.stripe.com/c/pay/cs_live_b1u5Ov4moSYZT6GCvr21rXzCJGPSKeUpmTpNXUlHdXiaHjeUXcbP7EkNLV#fidkdWxOYHwnPyd1blppbHNgWmhrQEhXXWdpMTdETnVgckpJQHBHX0F%2FQScpJ3VpbGtuQH11anZgYUxhJz8nM2pAM3dNNnxgY2RwNlxmZkhIJyknd2BjYHd3YHdKd2xibGsnPydtcXF1Pyoqdm5sdmhsK2ZqaConeCUl ",
-                                )));
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false, // user must tap button!
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Subscription Guide'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: const <Widget>[
+                                Text(
+                                    'When the page is open please click on the "continue" button in the center of the page. Then proceed to checkout and pay for your subscription. Click proceed to process the payment.'),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Continue'),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (builder) => WeeklyWebPage(
+                                              title: "Weekly",
+                                              url:
+                                                  "https://checkout.stripe.com/c/pay/cs_live_b1u5Ov4moSYZT6GCvr21rXzCJGPSKeUpmTpNXUlHdXiaHjeUXcbP7EkNLV#fidkdWxOYHwnPyd1blppbHNgWmhrQEhXXWdpMTdETnVgckpJQHBHX0F%2FQScpJ3VpbGtuQH11anZgYUxhJz8nM2pAM3dNNnxgY2RwNlxmZkhIJyknd2BjYHd3YHdKd2xibGsnPydtcXF1Pyoqdm5sdmhsK2ZqaConeCUl ",
+                                            )));
+                              },
+                            ),
+                            TextButton(
+                              child: const Text('Back'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -95,7 +128,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text("\$ 7.99")
+                        Text("\$ 6.99")
                       ],
                     ),
                   ),
@@ -104,29 +137,45 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                   width: 15,
                 ),
                 InkWell(
-                  onTap: () async {
-                    await FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .update({
-                      "promoCodes": controller.text,
-                      "uid": FirebaseAuth.instance.currentUser!.uid,
-                      "blocked": false,
-                      "paid": true,
-                      "count": 3,
-                      "subscriptionType": "Monthly",
-                      "price": "15.99",
-                      "subscriptionTaken": true
-                    }).then((value) => {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (builder) => MonthlyWebPage(
-                                            title: "Monthly",
-                                            url:
-                                                " https://checkout.stripe.com/c/pay/cs_live_b1h3HdLi5vUcJmTcHJM0ExMMo0CCkhlt6qgr8pk4s30kXD2l4wDI7HMfk1#fidkdWxOYHwnPyd1blppbHNgWmhrQEhXXWdpMTdETnVgckpJQHBHX0F%2FQScpJ3VpbGtuQH11anZgYUxhJz8nM2pAMW9%2FPFJGM0FcNFQxNTU0Jyknd2BjYHd3YHdKd2xibGsnPydtcXF1Pyoqdm5sdmhsK2ZqaConeCUl ",
-                                          )))
-                            });
+                  onTap: () {
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false, // user must tap button!
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Subscription Guide'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: const <Widget>[
+                                Text(
+                                    'When the page is open please click on the "continue" button in the center of the page. Then proceed to checkout and pay for your subscription. Click proceed to process the payment.'),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Continue'),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (builder) => MonthlyWebPage(
+                                              title: "Monthly",
+                                              url:
+                                                  "https://checkout.stripe.com/c/pay/cs_live_b1h3HdLi5vUcJmTcHJM0ExMMo0CCkhlt6qgr8pk4s30kXD2l4wDI7HMfk1#fidkdWxOYHwnPyd1blppbHNgWmhrQEhXXWdpMTdETnVgckpJQHBHX0F%2FQScpJ3VpbGtuQH11anZgYUxhJz8nM2pAMW9%2FPFJGM0FcNFQxNTU0Jyknd2BjYHd3YHdKd2xibGsnPydtcXF1Pyoqdm5sdmhsK2ZqaConeCUl ",
+                                            )));
+                              },
+                            ),
+                            TextButton(
+                              child: const Text('Back'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -145,7 +194,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text("\$ 15.99")
+                        Text("\$ 14.99")
                       ],
                     ),
                   ),
@@ -157,28 +206,44 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
             ),
             InkWell(
               onTap: () async {
-                await FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                    .update({
-                  "promoCodes": controller.text,
-                  "uid": FirebaseAuth.instance.currentUser!.uid,
-                  "blocked": false,
-                  "paid": true,
-                  "count": 3,
-                  "subscriptionType": "Yearly",
-                  'price': "69.99",
-                  "subscriptionTaken": true
-                }).then((value) => {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (builder) => YearlyWebPage(
-                                        title: "Yearly",
-                                        url:
-                                            "Annual: https://checkout.stripe.com/c/pay/cs_live_b15J9bBXB1QJpf5XeiLRcL991oOiXrqUtnOddG1PVt5O9ZmQ6qYEulY3Rx#fidkdWxOYHwnPyd1blppbHNgWmhrQEhXXWdpMTdETnVgckpJQHBHX0F%2FQScpJ3VpbGtuQH11anZgYUxhJz8nY19gMW9%2FZzVCN2tMZ3RANz1kJyknd2BjYHd3YHdKd2xibGsnPydtcXF1Pyoqdm5sdmhsK2ZqaConeCUl ",
-                                      )))
-                        });
+                showDialog<void>(
+                  context: context,
+                  barrierDismissible: false, // user must tap button!
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Subscription Guide'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: const <Widget>[
+                            Text(
+                                'When the page is open please click on the "continue" button in the center of the page. Then proceed to checkout and pay for your subscription. Click proceed to process the payment.'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('Continue'),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => YearlyWebPage(
+                                          title: "Yearly",
+                                          url:
+                                              "https://checkout.stripe.com/c/pay/cs_live_b15J9bBXB1QJpf5XeiLRcL991oOiXrqUtnOddG1PVt5O9ZmQ6qYEulY3Rx#fidkdWxOYHwnPyd1blppbHNgWmhrQEhXXWdpMTdETnVgckpJQHBHX0F%2FQScpJ3VpbGtuQH11anZgYUxhJz8nY19gMW9%2FZzVCN2tMZ3RANz1kJyknd2BjYHd3YHdKd2xibGsnPydtcXF1Pyoqdm5sdmhsK2ZqaConeCUl ",
+                                        )));
+                          },
+                        ),
+                        TextButton(
+                          child: const Text('Back'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -197,7 +262,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                     SizedBox(
                       height: 10,
                     ),
-                    Text("\$ 69.99")
+                    Text("\$ 59.99")
                   ],
                 ),
               ),
@@ -207,6 +272,49 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
       ),
     );
   }
+
+  // void _createInterstitialAd() {
+  //   InterstitialAd.load(
+  //       adUnitId: AdHelper.interstitialAdUnitId,
+  //       request: AdRequest(),
+  //       adLoadCallback: InterstitialAdLoadCallback(
+  //         onAdLoaded: (InterstitialAd ad) {
+  //           print('$ad loaded');
+  //           _interstitialAd = ad;
+  //           // _numInterstitialLoadAttempts = 0;
+  //           _interstitialAd!.setImmersiveMode(true);
+  //         },
+  //         onAdFailedToLoad: (LoadAdError error) {
+  //           print('InterstitialAd failed to load: $error.');
+  //           // _numInterstitialLoadAttempts += 1;
+  //           _interstitialAd = null;
+  //           _createInterstitialAd();
+  //         },
+  //       ));
+  // }
+
+  // void _showInterstitialAd() {
+  //   if (_interstitialAd == null) {
+  //     print('Warning: attempt to show interstitial before loaded.');
+  //     return;
+  //   }
+  //   _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+  //     onAdShowedFullScreenContent: (InterstitialAd ad) =>
+  //         print('ad onAdShowedFullScreenContent.'),
+  //     onAdDismissedFullScreenContent: (InterstitialAd ad) {
+  //       print('$ad onAdDismissedFullScreenContent.');
+  //       ad.dispose();
+  //       _createInterstitialAd();
+  //     },
+  //     onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+  //       print('$ad onAdFailedToShowFullScreenContent: $error');
+  //       ad.dispose();
+  //       _createInterstitialAd();
+  //     },
+  //   );
+  //   _interstitialAd!.show();
+  //   _interstitialAd = null;
+  // }
 
   //Payment Function
 }

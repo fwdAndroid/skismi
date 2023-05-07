@@ -36,7 +36,7 @@ class _RunesWebPageState extends State<RunesWebPage> {
                             title: "Runes Reading",
                           )));
             },
-            child: Text("Open Runes Reading"),
+            child: Text("Get Your Runes Reading"),
           ),
           SizedBox(
             height: 10,
@@ -63,7 +63,7 @@ class _RunesWebPageState extends State<RunesWebPage> {
                             )));
               });
             },
-            child: Text("Chat with Runes Reading Expert"),
+            child: Text("Chat with a Runes Reading Expert"),
           )
         ],
       ),

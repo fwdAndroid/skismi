@@ -31,10 +31,10 @@ class _OrcaleWebPageState extends State<OrcaleWebPage> {
                   MaterialPageRoute(
                       builder: (builder) => MyWidget(
                             url: "https://skismi.com/oracle-test/",
-                            title: "Oracle Readings",
+                            title: "Oracle Reading",
                           )));
             },
-            child: Text("Open Oracle Readings"),
+            child: Text("Get Your Oracle Reading"),
           ),
           SizedBox(
             height: 10,
@@ -48,7 +48,7 @@ class _OrcaleWebPageState extends State<OrcaleWebPage> {
                   .collection("messageslist")
                   .doc(uuid)
                   .set({
-                "name": "Oracle Readings",
+                "name": "Oracle Reading",
                 "uuid": uuid,
                 "uid": FirebaseAuth.instance.currentUser!.uid
               }).then((value) {
@@ -56,12 +56,12 @@ class _OrcaleWebPageState extends State<OrcaleWebPage> {
                     context,
                     MaterialPageRoute(
                         builder: (builder) => ChatScreen(
-                              name: "Oracle Readings",
+                              name: "Oracle Reading",
                               uuid: uuid,
                             )));
               });
             },
-            child: Text("Chat with Oracle Readings Expert"),
+            child: Text("Chat with the Oracle"),
           )
         ],
       ),

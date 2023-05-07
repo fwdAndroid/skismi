@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:skismi/ads/ads_service.dart';
 import 'package:skismi/main_screen_pages/chatpage.dart';
 import 'package:skismi/main_screen_pages/experts.dart';
 import 'package:skismi/main_screen_pages/settings.dart';
@@ -33,6 +35,14 @@ class _MainScreenState extends State<MainScreen> {
     'assets/clouds.png',
     'assets/cjs.png',
   ];
+  late BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
+  void initState() {
+    _loadBannerAd();
+    _createInterstitialAd();
+  }
+
+  InterstitialAd? _interstitialAd;
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +53,15 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 20,
-            ),
+            if (_isBannerAdReady)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: _bannerAd.size.width.toDouble(),
+                  height: _bannerAd.size.height.toDouble(),
+                  child: AdWidget(ad: _bannerAd),
+                ),
+              ),
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, top: 20),
               height: 50,
@@ -95,6 +111,8 @@ class _MainScreenState extends State<MainScreen> {
             )),
             ElevatedButton(
               onPressed: () async {
+                _showInterstitialAd();
+
                 final documentReference = FirebaseFirestore.instance
                     .collection('users')
                     .doc(FirebaseAuth.instance.currentUser!.uid);
@@ -105,16 +123,70 @@ class _MainScreenState extends State<MainScreen> {
                 final pay = data['paid'];
                 final taken = data['subscriptionTaken'];
 
-                if (count >= 0 && pay == false && taken == false) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (builder) => MyWidget(
-                                title: "Trial",
-                                url:
-                                    "https://skismi.com/tarot-card-results-trial/",
-                              )));
-                } else {
+                if (count >= 0 || pay == true || taken == true) {
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Center(
+                          child: const Text(
+                            'Choose Your Free Reading',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              TextButton(
+                                child: Text("Horoscope Readings"),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (builder) => MyWidget(
+                                                title: "Horoscope Readings",
+                                                url:
+                                                    "https://skismi.com/horoscope-results/",
+                                              )));
+                                },
+                              ),
+                              TextButton(
+                                child: Text("One Card Tarot Card Readings"),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (builder) => MyWidget(
+                                                title:
+                                                    "One Card Tarot Card Readings",
+                                                url:
+                                                    "https://skismi.com/tarot-card-results-trial/",
+                                              )));
+                                },
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Center(
+                                  child: Text(
+                                'Free plans get three free readings per week',
+                                style: TextStyle(fontSize: 15),
+                              ))
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Cancel"))
+                        ],
+                      );
+                    },
+                  );
+                } else if (count <= 0 || pay == false || taken == false) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -129,15 +201,11 @@ class _MainScreenState extends State<MainScreen> {
                   shape: StadiumBorder(), fixedSize: Size(200, 60)),
             ),
             SizedBox(
-              height: 40,
-            ),
-            Text(
-              "Free Readings Left",
-              style: TextStyle(color: Colors.white),
+              height: 20,
             ),
             Center(
               child: Container(
-                height: 40,
+                height: 60,
                 margin: EdgeInsets.only(right: 10),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -148,6 +216,7 @@ class _MainScreenState extends State<MainScreen> {
                             "uid",
                             isEqualTo: FirebaseAuth.instance.currentUser!.uid,
                           )
+                          .where("paid", isEqualTo: false)
                           .where("subscriptionTaken", isEqualTo: false)
                           .snapshots(),
                       builder: (BuildContext context,
@@ -167,14 +236,25 @@ class _MainScreenState extends State<MainScreen> {
                           Map<String, dynamic> data =
                               document.data()! as Map<String, dynamic>;
 
-                          return Center(
-                            child: Text(
-                              data['count'] <= 0
-                                  ? "0"
-                                  : data['count'].toString(),
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            ),
+                          return Column(
+                            children: [
+                              Text(
+                                "Free Readings Left This Week",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Center(
+                                child: Text(
+                                  data['count'] <= 0
+                                      ? "0"
+                                      : data['count'].toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                              ),
+                            ],
                           );
                         }).toList());
                       }),
@@ -251,6 +331,70 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
+
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdHelper.interstitialAdUnitId,
+        request: AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad) {
+            print('$ad loaded');
+            _interstitialAd = ad;
+            // _numInterstitialLoadAttempts = 0;
+            _interstitialAd!.setImmersiveMode(true);
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error.');
+            // _numInterstitialLoadAttempts += 1;
+            _interstitialAd = null;
+            _createInterstitialAd();
+          },
+        ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      print('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
+  }
+
+  void _loadBannerAd() {
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    _bannerAd.load();
+  }
 }
 
 //?Coursel Class
@@ -282,4 +426,12 @@ const List<Choice> choices = const <Choice>[
   const Choice(
       title: 'assets/cjs.png',
       content: 'Find ancient wisdom with your Chinese Horoscope'),
+  const Choice(
+      title: "assets/h.png",
+      content:
+          "Get daily insights into love, work, and health with our personalized, AI-powered horoscope readings"),
+  const Choice(
+      title: "assets/asd.png",
+      content:
+          "Explore life path, destiny, and soul urge numbers for unique guidance and self-discovery.")
 ];

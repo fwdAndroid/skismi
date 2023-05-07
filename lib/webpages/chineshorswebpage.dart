@@ -1,22 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:skismi/main_screen_pages/chatpage.dart';
 import 'package:skismi/messages/chat_screen.dart';
 import 'package:skismi/messages/messageai.dart';
 import 'package:skismi/webpages/webpage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
-class ChineseWebPage extends StatefulWidget {
-  const ChineseWebPage({super.key});
+class ChinesHoroWebPage extends StatefulWidget {
+  const ChinesHoroWebPage({super.key});
 
   @override
-  State<ChineseWebPage> createState() => _ChineseWebPageState();
+  State<ChinesHoroWebPage> createState() => _ChinesHoroWebPageState();
 }
 
-class _ChineseWebPageState extends State<ChineseWebPage> {
+class _ChinesHoroWebPageState extends State<ChinesHoroWebPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,19 +25,18 @@ class _ChineseWebPageState extends State<ChineseWebPage> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Image.asset("assets/cjs.png"),
+          Image.asset("assets/h.png"),
           ElevatedButton(
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (builder) => MyWidget(
-                            url:
-                                "https://skismi.com/chinese-horoscope-results/",
-                            title: "Chinese Horoscopes",
+                            url: "https://skismi.com/horoscope-results/",
+                            title: "Horoscope Readings",
                           )));
             },
-            child: Text("Get Your Chinese Horoscope"),
+            child: Text("Get Your Horoscope"),
           ),
           SizedBox(
             height: 10,
@@ -52,7 +50,7 @@ class _ChineseWebPageState extends State<ChineseWebPage> {
                   .collection("messageslist")
                   .doc(uuid)
                   .set({
-                "name": "Chinese Horoscopes",
+                "name": "Tarot Card",
                 "uuid": uuid,
                 "uid": FirebaseAuth.instance.currentUser!.uid
               }).then((value) {
@@ -60,22 +58,15 @@ class _ChineseWebPageState extends State<ChineseWebPage> {
                     context,
                     MaterialPageRoute(
                         builder: (builder) => ChatScreen(
-                              name: "Chinese Horoscopes",
+                              name: "Horoscope Readings",
                               uuid: uuid,
                             )));
               });
             },
-            child: Text("Chat with a Chinese Horoscope Expert"),
+            child: Text("Chat with an Astrologer"),
           )
         ],
       ),
     );
-  }
-
-  _launchURL() async {
-    final Uri _url = Uri.parse('https://skismi.com/chinese-horoscope-results/');
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
   }
 }

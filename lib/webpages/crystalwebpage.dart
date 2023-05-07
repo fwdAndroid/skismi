@@ -37,7 +37,7 @@ class _CrystalWebPageState extends State<CrystalWebPage> {
                             title: "Crystal Ball Reading",
                           )));
             },
-            child: Text("Open Crystal Ball Reading"),
+            child: Text("Get Your Crystal Ball Reading"),
           ),
           SizedBox(
             height: 10,
@@ -64,7 +64,7 @@ class _CrystalWebPageState extends State<CrystalWebPage> {
                             )));
               });
             },
-            child: Text("Chat with Crystal Ball Reading Expert"),
+            child: Text("Chat with Your Crystal Ball Reader"),
           )
         ],
       ),
