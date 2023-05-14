@@ -26,7 +26,7 @@ class _MonthlyWebPageState extends State<MonthlyWebPage> {
   double progress = 0;
   final urlController = TextEditingController();
   List<String> loadedResources = [];
-  bool _paymentMade = false;
+  bool _showButton = false;
 
   @override
   void initState() {
@@ -97,16 +97,20 @@ class _MonthlyWebPageState extends State<MonthlyWebPage> {
                         // and cancel the request
                         return NavigationActionPolicy.CANCEL;
                       }
+                      if (url.toString().contains("/success")) {
+                        setState(() {
+                          _showButton = true;
+                        });
+                      }
                     }
 
                     return NavigationActionPolicy.ALLOW;
                   },
                   onLoadStop: (controller, url) async {
-                    pullToRefreshController?.endRefreshing();
-                    if (url.toString() ==
-                        "https://checkout.stripe.com/c/pay/cs_live_b1h3HdLi5vUcJmTcHJM0ExMMo0CCkhlt6qgr8pk4s30kXD2l4wDI7HMfk1#fidkdWxOYHwnPyd1blppbHNgWmhrQEhXXWdpMTdETnVgckpJQHBHX0F%2FQScpJ3VpbGtuQH11anZgYUxhJz8nM2pAMW9%2FPFJGM0FcNFQxNTU0Jyknd2BjYHd3YHdKd2xibGsnPydtcXF1Pyoqdm5sdmhsK2ZqaConeCUl ") {
+                    // pullToRefreshController?.endRefreshing();
+                    if (url.toString().contains("/success")) {
                       setState(() {
-                        _paymentMade = true;
+                        _showButton = true;
                       });
                     }
                   },
@@ -138,55 +142,52 @@ class _MonthlyWebPageState extends State<MonthlyWebPage> {
           ButtonBar(
             alignment: MainAxisAlignment.center,
             children: <Widget>[
-              _paymentMade
-                  ? ElevatedButton(
-                      child: Text("Confirm Payment"),
-                      onPressed: () async {
-                        showDialog<void>(
-                          context: context,
-                          barrierDismissible: false, // user must tap button!
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Center(
-                                child: const Text(
-                                  'Payment is confirm You can Delete the Subscription from Setting',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                              content: SingleChildScrollView(
-                                child: ListBody(
-                                  children: <Widget>[],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: Text("Confirm"),
-                                  onPressed: () async {
-                                    await FirebaseFirestore.instance
-                                        .collection("users")
-                                        .doc(FirebaseAuth
-                                            .instance.currentUser!.uid)
-                                        .update({
-                                      "paid": true,
-                                      "price": "14.99",
-                                      "subscriptionType": "Monthly",
-                                      "subscriptionTaken": true
-                                    }).then((value) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (builder) =>
-                                                  MainScreen()));
-                                    });
-                                  },
-                                ),
-                              ],
-                            );
-                          },
+              if (_showButton)
+                ElevatedButton(
+                  child: Text("Confirm Payment"),
+                  onPressed: () async {
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false, // user must tap button!
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Center(
+                            child: const Text(
+                              'Payment is confirm You can Delete the Subscription from Setting',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[],
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              child: Text("Confirm"),
+                              onPressed: () async {
+                                await FirebaseFirestore.instance
+                                    .collection("users")
+                                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                                    .update({
+                                  "paid": true,
+                                  "price": "14.99",
+                                  "subscriptionType": "Monthly",
+                                  "subscriptionTaken": true
+                                }).then((value) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (builder) => MainScreen()));
+                                });
+                              },
+                            ),
+                          ],
                         );
                       },
-                    )
-                  : SizedBox(),
+                    );
+                  },
+                ),
               ElevatedButton(
                 child: Text("Back"),
                 onPressed: () async {

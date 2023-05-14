@@ -54,14 +54,21 @@ class _MainScreenState extends State<MainScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (_isBannerAdReady)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  width: _bannerAd.size.width.toDouble(),
-                  height: _bannerAd.size.height.toDouble(),
-                  child: AdWidget(ad: _bannerAd),
-                ),
-              ),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection("users")
+                      .where("paid", isEqualTo: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        width: _bannerAd.size.width.toDouble(),
+                        height: _bannerAd.size.height.toDouble(),
+                        child: AdWidget(ad: _bannerAd),
+                      ),
+                    );
+                  }),
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, top: 20),
               height: 50,
@@ -111,8 +118,6 @@ class _MainScreenState extends State<MainScreen> {
             )),
             ElevatedButton(
               onPressed: () async {
-                _showInterstitialAd();
-
                 final documentReference = FirebaseFirestore.instance
                     .collection('users')
                     .doc(FirebaseAuth.instance.currentUser!.uid);
@@ -123,7 +128,7 @@ class _MainScreenState extends State<MainScreen> {
                 final pay = data['paid'];
                 final taken = data['subscriptionTaken'];
 
-                if (count >= 0 || pay == true || taken == true) {
+                if (count >= 1 || pay == true || taken == true) {
                   showDialog<void>(
                     context: context,
                     barrierDismissible: false, // user must tap button!
@@ -139,7 +144,7 @@ class _MainScreenState extends State<MainScreen> {
                           child: ListBody(
                             children: <Widget>[
                               TextButton(
-                                child: Text("Horoscope Readings"),
+                                child: Text("Weekly Horoscope Readings"),
                                 onPressed: () {
                                   Navigator.push(
                                       context,
@@ -165,12 +170,52 @@ class _MainScreenState extends State<MainScreen> {
                                               )));
                                 },
                               ),
+                              TextButton(
+                                child: Text("Orcale Consultations"),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (builder) => MyWidget(
+                                                title: "Oracle Consultations",
+                                                url:
+                                                    "https://skismi.com/oracle-test/",
+                                              )));
+                                },
+                              ),
+                              TextButton(
+                                child: Text("Crystal Ball Readings"),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (builder) => MyWidget(
+                                                title: "Crystal Ball Reading",
+                                                url:
+                                                    "https://skismi.com/crystal-ball-reading/",
+                                              )));
+                                },
+                              ),
+                              TextButton(
+                                child: Text("Magic Eight-Ball Answers"),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (builder) => MyWidget(
+                                                title:
+                                                    "Magic Eight-Ball Answers",
+                                                url:
+                                                    "https://skismi.com/magic-eight-ball-results/",
+                                              )));
+                                },
+                              ),
                               SizedBox(
                                 height: 10,
                               ),
                               Center(
                                   child: Text(
-                                'Free plans get three free readings per week',
+                                'Free plans get three free readings per week.',
                                 style: TextStyle(fontSize: 15),
                               ))
                             ],
@@ -186,7 +231,9 @@ class _MainScreenState extends State<MainScreen> {
                       );
                     },
                   );
-                } else if (count <= 0 || pay == false || taken == false) {
+                } else if (count < 3 || pay == false || taken == false) {
+                  _showInterstitialAd();
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(

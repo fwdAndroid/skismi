@@ -61,7 +61,7 @@ class _OrcaleWebPageState extends State<OrcaleWebPage> {
                             )));
               });
             },
-            child: Text("Chat with the Oracle"),
+            child: Text("Chat with the Oracle"),
           )
         ],
       ),

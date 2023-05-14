@@ -21,7 +21,7 @@
 
 // class _SubsriptionAskState extends State<SubsriptionAsk> {
 //   TextEditingController controller = TextEditingController();
-//   Map<String, dynamic>? paymentIntent;
+  // Map<String, dynamic>? paymentIntent;
 //   int selectedIndex = 0;
 //   @override
 //   Widget build(BuildContext context) {

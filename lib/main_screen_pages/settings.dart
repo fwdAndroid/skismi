@@ -87,6 +87,28 @@ class _AppSettingsState extends State<AppSettings> {
           Divider(
             color: Colors.white,
           ),
+          // ListTile(
+          //   onTap: () async {
+          //     await FirebaseFirestore.instance
+          //         .collection("users")
+          //         .doc(FirebaseAuth.instance.currentUser!.uid)
+          //         .update({"count": 3}).then((value) {
+          //       Navigator.push(context,
+          //           MaterialPageRoute(builder: (builder) => MainScreen()));
+          //     });
+          //   },
+          //   title: Text(
+          //     "Reset Counter",
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          //   trailing: Icon(
+          //     Icons.arrow_forward_ios,
+          //     color: Colors.white,
+          //   ),
+          // ),
+          // Divider(
+          //   color: Colors.white,
+          // ),
           ListTile(
             onTap: () {
               Share.share(

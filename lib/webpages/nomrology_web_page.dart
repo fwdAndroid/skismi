@@ -33,10 +33,10 @@ class _NormWebPageState extends State<NormWebPage> {
                   MaterialPageRoute(
                       builder: (builder) => MyWidget(
                             url: "https://skismi.com/numerology-results/",
-                            title: "Numerology Readings",
+                            title: "Numerology Reports",
                           )));
             },
-            child: Text("Get a Numerology Reading"),
+            child: Text("Get a Numerology Reports"),
           ),
           SizedBox(
             height: 10,
@@ -58,7 +58,7 @@ class _NormWebPageState extends State<NormWebPage> {
                     context,
                     MaterialPageRoute(
                         builder: (builder) => ChatScreen(
-                              name: "Numerology Reading",
+                              name: "Numerology Reports",
                               uuid: uuid,
                             )));
               });

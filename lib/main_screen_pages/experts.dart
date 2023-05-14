@@ -56,7 +56,7 @@ class _ExpertsState extends State<Experts> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 width: 360,
-                height: 120,
+                height: 110,
                 decoration: BoxDecoration(
                   color: Color(0xff7A8194),
                   borderRadius: BorderRadius.circular(40),
@@ -95,7 +95,8 @@ class _ExpertsState extends State<Experts> {
                       ),
                       Text(
                         "Your Horoscope readings can offer you insights into love, career, health, and finances based on your unique astrological profile, providing guidance for personal growth and self-discovery.",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white, fontSize: 11),
                       ),
                     ],
                   ),
@@ -109,7 +110,7 @@ class _ExpertsState extends State<Experts> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 width: 360,
-                height: 120,
+                height: 110,
                 decoration: BoxDecoration(
                   color: Color(0xff7A8194),
                   borderRadius: BorderRadius.circular(40),
@@ -140,8 +141,9 @@ class _ExpertsState extends State<Experts> {
                         height: 10,
                       ),
                       Text(
-                        "For Tarot: Tarot is a form of divination in which our AI bot will draw cards from the 78 card tarot deck to gain insight and illumination about your situation",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        "Tarot is a form of divination in which our AI bot will draw cards from the 78 card tarot deck to gain insight and illumination about your situation",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white, fontSize: 11),
                       ),
                     ],
                   ),
@@ -155,7 +157,7 @@ class _ExpertsState extends State<Experts> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 width: 360,
-                height: 120,
+                height: 110,
                 decoration: BoxDecoration(
                   color: Color(0xff7A8194),
                   borderRadius: BorderRadius.circular(40),
@@ -187,7 +189,53 @@ class _ExpertsState extends State<Experts> {
                       ),
                       Text(
                         "The Chinese zodiac is a traditional classification scheme based on the Chinese calendar that assigns an animal and its reputed attributes to each year in a repeating twelve-year cycle",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: 360,
+                height: 110,
+                decoration: BoxDecoration(
+                  color: Color(0xff7A8194),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: ListTile(
+                  onTap: () async {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (builder) => NormWebPage()));
+                  },
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/asd.png",
+                        height: 54,
+                      ),
+                    ],
+                  ),
+                  title: Text(
+                    "Numerology Reports",
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                  subtitle: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Discover your unique numerological profile with our in-depth report, revealing insights about your life path, destiny, and personality based on your birth date and name. Uncover your hidden potential and life patterns.",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white, fontSize: 11),
                       ),
                     ],
                   ),
@@ -223,7 +271,7 @@ class _ExpertsState extends State<Experts> {
                     ],
                   ),
                   title: Text(
-                    "Oracle Consultations",
+                    "Oracle Readings",
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   subtitle: Column(
@@ -233,143 +281,8 @@ class _ExpertsState extends State<Experts> {
                       ),
                       Text(
                         "Consulting the Oracle is a great way to get a sense of your future.",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: 360,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Color(0xff7A8194),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: ListTile(
-                  onTap: () async {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (builder) => NormWebPage()));
-                  },
-                  leading: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/asd.png",
-                        height: 54,
-                      ),
-                    ],
-                  ),
-                  title: Text(
-                    "Numerology Readings",
-                    style: TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                  subtitle: Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Discover your unique numerological profile with our in-depth report, revealing insights about your life path, destiny, and personality based on your birth date and name. Uncover your hidden potential and life patterns.",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: 360,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Color(0xff7A8194),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: ListTile(
-                  onTap: () async {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => CrystalWebPage()));
-                  },
-                  leading: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/women.png",
-                        height: 54,
-                      ),
-                    ],
-                  ),
-                  title: Text(
-                    "Crystal Ball Readings",
-                    style: TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                  subtitle: Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Crystal ball: As our AI bot gazes into the crystal ball it describes the ups, downs and adventures it sees in your future.",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: 360,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Color(0xff7A8194),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: ListTile(
-                  onTap: () async {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => DreamWebPage()));
-                  },
-                  leading: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/clouds.png",
-                        height: 54,
-                      ),
-                    ],
-                  ),
-                  title: Text(
-                    "Dream Interpretations",
-                    style: TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                  subtitle: Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Dream Interpretations: Our AI bot will discuss the patterns, themes and symbols in your dreams and their meanings for your waking life.",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white, fontSize: 11),
                       ),
                     ],
                   ),
@@ -415,7 +328,8 @@ class _ExpertsState extends State<Experts> {
                       ),
                       Text(
                         "I Ching (Yijing) oracle is based on the 64 principles from the Book of Changes with interpretations inspired by the elements of nature.",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white, fontSize: 11),
                       ),
                     ],
                   ),
@@ -429,7 +343,7 @@ class _ExpertsState extends State<Experts> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 width: 360,
-                height: 120,
+                height: 110,
                 decoration: BoxDecoration(
                   color: Color(0xff7A8194),
                   borderRadius: BorderRadius.circular(40),
@@ -451,7 +365,7 @@ class _ExpertsState extends State<Experts> {
                     ],
                   ),
                   title: Text(
-                    "Runes ",
+                    "Runes Readings",
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   subtitle: Column(
@@ -461,7 +375,102 @@ class _ExpertsState extends State<Experts> {
                       ),
                       Text(
                         "Runes Readings: Our AI-generated runes Readings app unlocks the mysteries of the ancient world, providing personalized insights into your future through the interpretation of runic symbols.",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: 360,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: Color(0xff7A8194),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: ListTile(
+                  onTap: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => CrystalWebPage()));
+                  },
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/women.png",
+                        height: 54,
+                      ),
+                    ],
+                  ),
+                  title: Text(
+                    "Crystal Ball Readings",
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                  subtitle: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Crystal ball: As our AI bot gazes into the crystal ball it describes the ups, downs and adventures it sees in your future.",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white, fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: 360,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: Color(0xff7A8194),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: ListTile(
+                  onTap: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => DreamWebPage()));
+                  },
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/clouds.png",
+                        height: 54,
+                      ),
+                    ],
+                  ),
+                  title: Text(
+                    "Dream Interpretations",
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                  subtitle: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Dream Interpretations: Our AI bot will discuss the patterns, themes and symbols in your dreams and their meanings for your waking life.",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white, fontSize: 11),
                       ),
                     ],
                   ),
@@ -497,7 +506,7 @@ class _ExpertsState extends State<Experts> {
                     ],
                   ),
                   title: Text(
-                    "Magic Eight Ball",
+                    "Magic Eight Ball Answers",
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   subtitle: Column(
@@ -507,7 +516,8 @@ class _ExpertsState extends State<Experts> {
                       ),
                       Text(
                         "The Magic Eight-Ball can answer your deepest questions.",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.white, fontSize: 11),
                       ),
                     ],
                   ),

@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:skismi/ads/ads_service.dart';
 import 'package:skismi/main_screen.dart';
-import 'package:skismi/webpages/monthly_web_page.dart';
-import 'package:skismi/webpages/weekly_web_page.dart';
-import 'package:skismi/webpages/yearly_web_page.dart';
+import 'package:skismi/payment/monthly_web_page.dart';
+import 'package:skismi/payment/weekly_web_page.dart';
+import 'package:skismi/payment/yearly_web_page.dart';
 
 class SubsriptionAsk extends StatefulWidget {
   SubsriptionAsk({super.key});
@@ -82,7 +82,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                             child: ListBody(
                               children: const <Widget>[
                                 Text(
-                                    'When the page is open please click on the "continue" button in the center of the page. Then proceed to checkout and pay for your subscription. Click proceed to process the payment.'),
+                                    'When the page is open please click on the "continue" button in the center of the page. After submitting your payment, please wait to click on the "Confirm payment" button to process your subscription.'),
                               ],
                             ),
                           ),
@@ -148,7 +148,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                             child: ListBody(
                               children: const <Widget>[
                                 Text(
-                                    'When the page is open please click on the "continue" button in the center of the page. Then proceed to checkout and pay for your subscription. Click proceed to process the payment.'),
+                                    'When the page is open please click on the "continue" button in the center of the page. After submitting your payment, please wait to click on the "Confirm payment" button to process your subscription.'),
                               ],
                             ),
                           ),
@@ -216,7 +216,7 @@ class _SubsriptionAskState extends State<SubsriptionAsk> {
                         child: ListBody(
                           children: const <Widget>[
                             Text(
-                                'When the page is open please click on the "continue" button in the center of the page. Then proceed to checkout and pay for your subscription. Click proceed to process the payment.'),
+                                'When the page is open please click on the "continue" button in the center of the page. After submitting your payment, please wait to click on the "Confirm payment" button to process your subscription.'),
                           ],
                         ),
                       ),
