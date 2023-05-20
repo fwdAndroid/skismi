@@ -1,19 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:skismi/ads/ads_service.dart';
-import 'package:skismi/main_screen_pages/chatpage.dart';
-import 'package:skismi/main_screen_pages/experts.dart';
 import 'package:skismi/main_screen_pages/settings.dart';
-import 'package:skismi/messages/chat_screen.dart';
 import 'package:skismi/payment/subcription_ask.dart';
-import 'package:skismi/separateTrailPage.dart';
 import 'package:skismi/status/checkexpertsubscription.dart';
 import 'package:skismi/webpages/webpage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
